@@ -1804,7 +1804,7 @@ git push origin main
 
 ## Workflow / Continous Integration no GitHub
 
-- CONFIGURAR DIRETORIOS E ARQUIVO DE INTEGRAÇÃO
+- CONFIGURAR DIRETORIOS E ARQUIVOS PARA INTEGRAÇÃO
 
 ```shell
 cd ~/MeuProjeto/frontpage/.github
@@ -1816,7 +1816,7 @@ vi workflows/ci.yml
 
 ```yaml
 name: ci
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
@@ -1853,5 +1853,80 @@ jobs:
       - name: Build
         run: yarn build
 ```
+
+
+
+cd ~/MeuProjeto/frontpage
+
+vi package.json
+
+```json
+{
+  "name": "frontpage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "test": "jest",
+    "test:ci":"jest",
+    "test:watch": "yarn test --watch",
+    "storybook": "start-storybook -s ./public -p 6006",
+    "build-storybook": "build-storybook -s ./public"
+  },
+  "lint-staged": {
+    "src/**/*": [
+      "yarn lint --fix",
+      "yarn test --findRelatedTests --bail"
+    ]
+  },
+  "dependencies": {
+    "next": "12.1.0",
+    "next-pwa": "^5.4.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.3"
+  },
+  "resolutions": {
+    "**/trim": "^1.0.0",
+    "**/glob-parent": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-typescript": "^7.16.7",
+    "@next/eslint-plugin-next": "^12.1.0",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@storybook/testing-library": "^0.0.9",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.39",
+    "@types/styled-components": "^5.1.24",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^8.10.0",
+    "eslint-config-next": "12.1.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-storybook": "^0.5.7",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "jest-styled-components": "^7.0.8",
+    "lint-staged": "^12.3.4",
+    "prettier": "2.5.1",
+    "typescript": "4.5.5"
+  }
+}
+```
+
+
 
 - VERIFICAR FUNCIONAMENTO EM GITHUB PULL REQUESTS
