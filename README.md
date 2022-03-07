@@ -1670,4 +1670,78 @@ git branch -M main
 git push -u origin main
 
 ```
+- HABILITAR DEPENDABOT NO GITHUB
+	- ABRA O REPOSITÓRIO NO GITHUB E PROCURE SETTINGS/CONFIGURAÇÕES
+	- SEÇÃO SECURITY/CODE SECURITY AND ANALYSIS
+	- HABILITAR DEPENDABOT ALERTS E DEPENDABOT SECURITY UPDATES
 
+- CONFIGURAR DIRETÓRIO GITHUB E ARQUIVOS
+
+```
+cd ~/MeuProjeto/frontpage
+mkdir .github .github/workflows
+touch .github/dependabot.yml
+touch .github/workflows/ci.yml
+cd .github
+```
+
+vi dependabot.yml
+```
+version: 2
+updates:
+- package-ecosystem: yarn
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+```
+
+vi workflows/ci.yml
+```
+name: ci
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.19.x
+
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Linting
+        run: yarn lint
+
+      - name: Test
+        run: yarn test:ci
+
+      - name: Build
+        run: yarn build
+```
+
+- ATUALIZAR REPOSITÓRIO
+
+```
+cd ~/MeuProjeto/frontpages
+git status
+git add .
+
+```
