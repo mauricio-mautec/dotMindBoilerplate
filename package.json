@@ -26,7 +26,8 @@
     "styled-components": "^5.3.3"
   },
   "resolutions": {
-    "**/trim": "^1.0.0"
+    "**/trim": "^1.0.0",
+    "**/glob-parent": "^5.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

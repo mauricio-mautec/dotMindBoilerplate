@@ -1740,7 +1740,7 @@ jobs:
 - ATUALIZAR REPOSITÓRIO
 
 ```
-cd ~/MeuProjeto/frontpages
+cd ~/MeuProjeto/frontpage
 git status
 git add .
 git status
@@ -1826,3 +1826,5 @@ git add
 git commit -m "ATUALIZAÇÃO FALHA DE SEGURANÇA PACOTE TRIM"
 git push origin main
 ```
+- REPETIR O PROCESSO ENQUANTO FOR POSSÍVEL
+- 
