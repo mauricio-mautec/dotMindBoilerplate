@@ -1649,7 +1649,7 @@ export default App
 ```
 
 - TESTAR PWA COLOCANDO EM PRODUÇÃO
-```
+```shell
 NODE_ENV=production
 yarn build
 yarn start
@@ -1662,7 +1662,7 @@ yarn start
   - Install  Github CLI gh
   - Escolher  GitHub.com, HTTPS , Authenticate to your GitHub crendentials e Login with a web browser
 
-```
+```shell
 brew install gh
 gh auth login
 git remote add origin https://github.com/<seu usuario git>/dotMindBoilerplate.git
@@ -1677,16 +1677,15 @@ git push -u origin main
 
 - CONFIGURAR DIRETÓRIO GITHUB E ARQUIVOS
 
-```
+```shell
 cd ~/MeuProjeto/frontpage
-mkdir .github .github/workflows
+mkdir .github
 touch .github/dependabot.yml
-touch .github/workflows/ci.yml
 cd .github
 ```
 
 vi dependabot.yml
-```
+```yaml
 version: 2
 updates:
 - package-ecosystem: yarn
@@ -1696,50 +1695,9 @@ updates:
   open-pull-requests-limit: 10
 ```
 
-vi workflows/ci.yml
-```
-name: ci
-on: [pull_request]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.19.x
-
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: |
-            ~/cache
-            !~/cache/exclude
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Linting
-        run: yarn lint
-
-      - name: Test
-        run: yarn test:ci
-
-      - name: Build
-        run: yarn build
-```
-
 - ATUALIZAR REPOSITÓRIO
 
-```
+```shell
 cd ~/MeuProjeto/frontpage
 git status
 git add .
@@ -1756,7 +1714,7 @@ git commit -m "INTEGRAÇÃO DEPENDABOT"
   - VOLTAR AO GITHUB PARA VER OS DEPENDABOT ALERTS
 
 vi package.json
-```
+```json
 {
   "name": "frontpage",
   "version": "0.1.0",
@@ -1820,11 +1778,80 @@ vi package.json
   }
 }
 ```
-```
+```shell
 git status
 git add
 git commit -m "ATUALIZAÇÃO FALHA DE SEGURANÇA PACOTE TRIM"
 git push origin main
 ```
 - REPETIR O PROCESSO ENQUANTO FOR POSSÍVEL
-- 
+
+vi package.json
+```json
+-----------
+  "resolutions": {
+    "**/trim": "^1.0.0",
+    "**/glob-parent": "^5.1.2"
+  },
+----------
+```
+```shell
+git status
+git add
+git commit -m "ATUALIZAÇÃO FALHA DE SEGURANÇA PACOTE TRIM"
+git push origin main
+```
+
+## Workflow / Continous Integration no GitHub
+
+- CONFIGURAR DIRETORIOS E ARQUIVO DE INTEGRAÇÃO
+
+```shell
+cd ~/MeuProjeto/frontpage/.github
+mkdir workflows
+touch workflows/ci.yml
+```
+
+vi workflows/ci.yml
+
+```yaml
+name: ci
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.19.x
+
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Linting
+        run: yarn lint
+
+      - name: Test
+        run: yarn test:ci
+
+      - name: Build
+        run: yarn build
+```
+
+- VERIFICAR FUNCIONAMENTO EM GITHUB PULL REQUESTS
