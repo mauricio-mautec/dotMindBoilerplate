@@ -1352,7 +1352,6 @@ describe('<Main />', () => {
 - INSTALAR PLUGIN Storybook helper (Riccardo Forina) DO VSCODE
 - CONFIGURAR PARA PROCURAR PELOS STORIES JUNTO DA PASTA DE CADA COMPONENTE
 - NOMENCLATURA SUGERIDA:
-	- Componente.story.tsx
 	- Iniciar Named story exports com Letra Maiúscula
 - CONFIGURAR DIRETÓRIOS E AJUSTAR PARA QUE A PASTA PUBLIC SEJA UTILIZADA PELOS STORIES 
 - ALTERAR COMPONENT MAIN PARA RECEBER. PARAMETROS
@@ -1363,7 +1362,7 @@ cd ~/MeuProjeto/frontpage
 yarn add --dev eslint-plugin-storybook
 npx sb init
 rm -rf stories
-touch src/components/Main/Main.stories.txs
+touch src/components/Main/stories.txs
 brew install http-server
 ```
 vi package.json
@@ -1454,7 +1453,7 @@ vi .storybook/main.js
 module.exports = {
   "stories": [
     "../src/components/**/*.stories.mdx",
-    "../src/components/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/components/**/stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [ "@storybook/addon-essentials" ],
   "framework": "@storybook/react"
@@ -1493,7 +1492,7 @@ export default Main
 
 
 
-vi src/components/Main/Main.stories.tsx
+vi src/components/Main/stories.tsx
 
 ```typescript
 import { ComponentStory, ComponentMeta } from '@storybook/react'
@@ -1929,4 +1928,224 @@ vi package.json
 
 
 
-- VERIFICAR FUNCIONAMENTO EM GITHUB PULL REQUESTS
+- VERIFICAR FUNCIONAMENTO EM GITHUB PULL REQUESTS APÓS ENVIAR UM PUSH
+
+---
+## Integração com Plop
+
+
+
+- CASE MODIFIERS
+  - **camelCase**: changeFormatToThis
+  - **snakeCase**: change_format_to_this
+  - **dashCase/kebabCase**: change-format-to-this
+  - **dotCase**: change.format.to.this
+  - **pathCase**: change/format/to/this
+  - **properCase/pascalCase**: ChangeFormatToThis
+  - **lowerCase**: change format to this
+  - **sentenceCase**: Change format to this,
+  - **constantCase**: CHANGE_FORMAT_TO_THIS
+  - **titleCase**: Change Format To This
+
+- INSTALAR E CONFIGURAR DIRETÓRIOS E ARQUIVOS
+
+[PlopJS](https://plopjs.com)
+
+yarn add --dev plop
+
+```shell
+cd ~/MeuProjeto/frontpage
+mkdir generators
+mkdir generators/templates
+touch generators/plopfile.js
+touch generators/templates/index.tsx.hbs
+```
+
+vi generators/plopfile.js
+
+```javascript
+module.exports = function (plop) {
+  // create your generators here
+  plop.setGenerator('component', {
+    description: 'application component logic',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'component name please'
+      }
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: '../src/components/{{pascalCase name}}/index.tsx',
+        templateFile: 'templates/index.tsx.hbs'
+      },
+      {
+        type: 'add',
+        path: '../src/components/{{pascalCase name}}/stories.tsx',
+        templateFile: 'templates/stories.tsx.hbs'
+      },
+      {
+        type: 'add',
+        path: '../src/components/{{pascalCase name}}/styles.ts',
+        templateFile: 'templates/styles.ts.hbs'
+      },
+      {
+        type: 'add',
+        path: '../src/components/{{pascalCase name}}/test.tsx',
+        templateFile: 'templates/test.tsx.hbs'
+      }
+    ]
+  })
+}
+```
+
+vi generators/templates/index.tsx.hbs
+
+```handlebars
+import * as S from './styles'
+
+const {{pascalCase name}} = ({}) => (
+  <S.Wrapper>
+    <h1>{{pascalCase name}}</h1>
+  </S.Wrapper>
+)
+
+export default {{pascalCase name}}
+```
+
+
+
+vi generators/templates/stories.tsx.hbs
+
+```handlebars
+import { ComponentStory, ComponentMeta } from '@storybook/react'
+
+import {{pascalCase name}} from '.'
+
+export default {
+  title: '{{pascalCase name}}',
+  component: {{pascalCase name}}
+} as ComponentMeta<typeof {{pascalCase name}}>
+
+const Template: ComponentStory<typeof {{pascalCase name}}> = (args) => <{{pascalCase name}} {...args} />
+
+export const Basic = Template.bind({})
+
+```
+
+
+
+vi generators/templates/styles.ts.hbs
+
+```handlebars
+import styled from 'styled-components'
+
+export const Wrapper = styled.main``
+
+```
+
+
+
+vi generators/templates/test.tsx.hbs
+
+```handlebars
+import { render, screen } from '@testing-library/react'
+
+import {{pascalCase name}} from '.'
+
+describe('<{{pascalCase name}} />', () => {
+  it('should render the heading', () => {
+    const { container } = render(<{{pascalCase name}} />)
+    expect(screen.getByRole('heading', { name: /{{pascalCase name}}/i })).toBeInTheDocument
+
+    expect(container.firstChild).toMatchSnapshot()
+  })
+})
+
+```
+
+
+
+vi package.json
+
+```json
+{
+  "name": "frontpage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "test": "jest",
+    "test:ci": "jest",
+    "test:watch": "yarn test --watch",
+    "storybook": "start-storybook -s ./public -p 6006",
+    "build-storybook": "build-storybook -s ./public",
+    "generate": "yarn plop --plopfile ./generators/plopfile.js"
+  },
+  "lint-staged": {
+    "src/**/*": [
+      "yarn lint --fix",
+      "yarn test --findRelatedTests --bail"
+    ]
+  },
+  "dependencies": {
+    "next": "12.1.0",
+    "next-pwa": "^5.4.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.3"
+  },
+  "resolutions": {
+    "**/trim": "^1.0.0",
+    "**/glob-parent": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-typescript": "^7.16.7",
+    "@next/eslint-plugin-next": "^12.1.0",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@storybook/testing-library": "^0.0.9",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.39",
+    "@types/styled-components": "^5.1.24",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^8.10.0",
+    "eslint-config-next": "12.1.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-storybook": "^0.5.7",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "jest-styled-components": "^7.0.8",
+    "lint-staged": "^12.3.4",
+    "plop": "^3.0.5",
+    "prettier": "2.5.1",
+    "typescript": "4.5.5"
+  }
+}
+```
+
+
+
+- TESTAR PLOP NA CRIAÇÃO DE UM NOVO COMPONENTE
+
+yarn generate
+
+---
+
+
+
