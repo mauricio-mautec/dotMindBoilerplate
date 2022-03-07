@@ -1665,7 +1665,7 @@ yarn start
 ```
 brew install gh
 gh auth login
-git add origin https://github.com/<seu usuario git>/dotMindBoilerplate.git
+git readd origin https://github.com/<seu usuario git>/dotMindBoilerplate.git
 git branch -M main
 git push -u origin main
 
