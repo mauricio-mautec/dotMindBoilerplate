@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> should render a fullWidth version: fullwidth 1`] = `
+.c0 {
+  background: linear-gradient(180deg,#ff5f5f 0%,#f062c0 50%);
+  color: #FAFAFA;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  padding: 0.8rem 3.2rem;
+  width: 100%;
+}
+
+<button
+  class="c0"
+>
+  <span>
+    Buy Now
+  </span>
+</button>
+`;
+
+exports[`<Button /> should render a icon version: icon 1`] = `
+.c1 {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.c0 {
+  background: linear-gradient(180deg,#ff5f5f 0%,#f062c0 50%);
+  color: #FAFAFA;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  padding: 0.8rem 3.2rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c0 svg {
+  width: 1.5rem;
+}
+
+.c0 svg + span {
+  margin-left: 0.8rem;
+}
+
+<button
+  class="c0"
+>
+  <svg
+    aria-hidden="true"
+    class="c1"
+    data-testid="icon"
+    fill="currentColor"
+    focusable="false"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0 0h24v24H0V0z"
+      fill="none"
+    />
+    <path
+      d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z"
+    />
+  </svg>
+  <span>
+    Buy Now
+  </span>
+</button>
+`;
+
+exports[`<Button /> should render the large size: large 1`] = `
+.c0 {
+  background: linear-gradient(180deg,#ff5f5f 0%,#f062c0 50%);
+  color: #FAFAFA;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  height: 5rem;
+  font-size: 1.6rem;
+  padding: 0.8rem 4.8rem;
+}
+
+<button
+  class="c0"
+>
+  <span>
+    Buy Now
+  </span>
+</button>
+`;
+
+exports[`<Button /> should render the medium size by default: default 1`] = `
+.c0 {
+  background: linear-gradient(180deg,#ff5f5f 0%,#f062c0 50%);
+  color: #FAFAFA;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  padding: 0.8rem 3.2rem;
+}
+
+<button
+  class="c0"
+>
+  <span>
+    Buy Now
+  </span>
+</button>
+`;
+
+exports[`<Button /> should render the small size: small 1`] = `
+.c0 {
+  background: linear-gradient(180deg,#ff5f5f 0%,#f062c0 50%);
+  color: #FAFAFA;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  padding: 0.8rem;
+}
+
+<button
+  class="c0"
+>
+  <span>
+    Buy Now
+  </span>
+</button>
+`;
