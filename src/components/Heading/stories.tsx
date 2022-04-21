@@ -4,12 +4,7 @@ import Heading from '.'
 
 export default {
   title: 'Heading',
-  component: Heading,
-  argTypes: {
-    children: {
-      type: 'string'
-    }
-  }
+  component: Heading
 } as ComponentMeta<typeof Heading>
 
 const Template: ComponentStory<typeof Heading> = (args) => <Heading {...args} />

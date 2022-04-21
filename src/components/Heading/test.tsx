@@ -17,7 +17,11 @@ describe('<Heading />', () => {
     })
   })
   it('should render a heading with a line at left', () => {
-    renderWithTheme(<Heading lineLeft>Won Games</Heading>)
+    renderWithTheme(
+      <Heading lineLeft lineColor="secondary">
+        Won Games
+      </Heading>
+    )
     expect(screen.getByRole('heading', { name: /won games/i })).toHaveStyle({
       'border-left': '0.7rem solid #3CD3C1'
     })
@@ -30,6 +34,26 @@ describe('<Heading />', () => {
       {
         modifier: '::after'
       }
+    )
+  })
+  it('should render a heading with a small size', () => {
+    renderWithTheme(<Heading size="small">Won Games</Heading>)
+    expect(screen.getByRole('heading', { name: /won games/i })).toHaveStyle({
+      'font-size': '1.6rem'
+    })
+  })
+  it('should render a heading with a primary line color', () => {
+    renderWithTheme(
+      <Heading lineColor="primary" lineLeft lineBottom>
+        Lorem Ipsum
+      </Heading>
+    )
+  })
+  it('should render a heading with a secondary line color', () => {
+    renderWithTheme(
+      <Heading lineColor="secondary" lineLeft lineBottom>
+        Lorem Ipsum
+      </Heading>
     )
   })
 })
