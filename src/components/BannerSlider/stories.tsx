@@ -45,6 +45,6 @@ Basic.args = { items }
 Basic.parameters = {
   layout: 'fullscreen',
   backgrounds: {
-    default: 'dark'
+    default: 'won-dark'
   }
 }
