@@ -1,15 +1,15 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import ProdutCard from '.'
+import ProductCard from '.'
 
 export default {
-  title: 'ProdutCard',
-  component: ProdutCard
-} as ComponentMeta<typeof ProdutCard>
+  title: 'ProductCard',
+  component: ProductCard
+} as ComponentMeta<typeof ProductCard>
 
-const Template: ComponentStory<typeof ProdutCard> = (args) => (
+const Template: ComponentStory<typeof ProductCard> = (args) => (
   <div style={{ width: '30rem' }}>
-    <ProdutCard {...args} />
+    <ProductCard {...args} />
   </div>
 )
 

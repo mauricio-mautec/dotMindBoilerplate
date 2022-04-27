@@ -12,7 +12,7 @@ import * as S from './styles'
  para receber o props e comece a definir a estrutura
  */
 
-export type ProdutCardProps = {
+export type ProductCardProps = {
   title: string
   subtitle: string
   img: string
@@ -23,7 +23,7 @@ export type ProdutCardProps = {
   onFav?: () => void
 } & RibbonProps
 
-const ProdutCard = ({
+const ProductCard = ({
   title,
   subtitle,
   img,
@@ -35,7 +35,7 @@ const ProdutCard = ({
   ribbonLabel,
   ribbonSize = 'small',
   ribbonColor = 'primary'
-}: ProdutCardProps) => (
+}: ProductCardProps) => (
   <S.Wrapper>
     <S.ImageBox backgroundColor={background}>
       <img src={img} alt={title} />
@@ -68,4 +68,4 @@ const ProdutCard = ({
   </S.Wrapper>
 )
 
-export default ProdutCard
+export default ProductCard

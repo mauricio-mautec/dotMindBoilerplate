@@ -2,7 +2,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import theme from 'styles/theme'
 import { renderWithTheme } from 'utils/tests/helpers'
 
-import ProdutCard from '.'
+import ProductCard from '.'
 
 const args = {
   title: 'My Product Card',
@@ -11,9 +11,9 @@ const args = {
   price: 'R$ 100,00',
   promotionalPrice: ''
 }
-describe('<ProdutCard />', () => {
+describe('<ProductCard />', () => {
   it('should render correctly', () => {
-    renderWithTheme(<ProdutCard {...args} />)
+    renderWithTheme(<ProductCard {...args} />)
 
     expect(
       screen.getByRole('heading', { name: args.title })
@@ -28,7 +28,7 @@ describe('<ProdutCard />', () => {
   })
 
   it('should render price in label', () => {
-    renderWithTheme(<ProdutCard {...args} />)
+    renderWithTheme(<ProductCard {...args} />)
 
     const price = screen.getByText('R$ 100,00')
     expect(price).not.toHaveStyleRule('text-decoration', 'line-through')
@@ -37,7 +37,7 @@ describe('<ProdutCard />', () => {
   })
 
   it('should render promotional price in label', () => {
-    renderWithTheme(<ProdutCard {...args} promotionalPrice="R$ 50,00" />)
+    renderWithTheme(<ProductCard {...args} promotionalPrice="R$ 50,00" />)
 
     const fullprice = screen.getByText('R$ 100,00')
     const price = screen.getByText('R$ 50,00')
@@ -48,13 +48,13 @@ describe('<ProdutCard />', () => {
   })
 
   it('should render a filled Favorite icon when favorite is true', () => {
-    renderWithTheme(<ProdutCard {...args} favorite />)
+    renderWithTheme(<ProductCard {...args} favorite />)
 
     expect(screen.getByLabelText(/remove from wishlist/i)).toBeInTheDocument()
   })
   it('should call onFav method when favorite is clicked', () => {
     const onFav = jest.fn()
-    renderWithTheme(<ProdutCard {...args} favorite onFav={onFav} />)
+    renderWithTheme(<ProductCard {...args} favorite onFav={onFav} />)
 
     fireEvent.click(screen.getAllByRole('button')[0])
     expect(onFav).toBeCalled()
@@ -62,7 +62,7 @@ describe('<ProdutCard />', () => {
 
   it('should render a Ribbon', () => {
     renderWithTheme(
-      <ProdutCard
+      <ProductCard
         {...args}
         ribbonLabel="20% OFF"
         ribbonSize="small"
