@@ -10,7 +10,6 @@ export default {
 const Template: ComponentStory<typeof Ribbon> = (args) => (
   <div
     style={{
-      width: '40rem',
       height: '25rem',
       position: 'relative',
       backgroundColor: '#888'
@@ -23,5 +22,5 @@ const Template: ComponentStory<typeof Ribbon> = (args) => (
 export const Basic = Template.bind({})
 
 Basic.args = {
-  children: 'Best Seller'
+  ribbonLabel: 'Best Seller'
 }

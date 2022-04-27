@@ -5,17 +5,18 @@ export type RibbonColors = 'primary' | 'secondary'
 export type RibbonSizes = 'normal' | 'small'
 
 export type RibbonProps = {
-  children: React.ReactNode
-  color?: RibbonColors
-  size?: RibbonSizes
+  ribbonLabel?: string
+  ribbonColor?: RibbonColors
+  ribbonSize?: RibbonSizes
 }
+
 const Ribbon = ({
-  children,
-  color = 'primary',
-  size = 'normal'
+  ribbonLabel = 'Ribbon Label',
+  ribbonColor = 'primary',
+  ribbonSize = 'normal'
 }: RibbonProps) => (
-  <S.Wrapper color={color} size={size}>
-    {children}
+  <S.Wrapper ribbonColor={ribbonColor} ribbonSize={ribbonSize}>
+    {ribbonLabel}
   </S.Wrapper>
 )
 

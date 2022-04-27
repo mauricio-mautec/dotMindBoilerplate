@@ -6,22 +6,19 @@ import Ribbon from '.'
 // 2 - DESENVOLVER OS TESTES
 
 describe('<Ribbon />', () => {
-  it('should render the text correctly', () => {
-    renderWithTheme(<Ribbon>Best Seller</Ribbon>)
+  it('should render the text and default color correctly', () => {
+    renderWithTheme(<Ribbon ribbonLabel="Best Seller" />)
 
     expect(screen.getByText(/best seller/i)).toBeInTheDocument()
-  })
-
-  it('should render with primary color', () => {
-    renderWithTheme(<Ribbon>Best Seller</Ribbon>)
-
     expect(screen.getByText(/best seller/i)).toHaveStyle({
       backgroundColor: '#F231A5'
     })
   })
 
   it('should render with secondary color', () => {
-    renderWithTheme(<Ribbon color="secondary">Best Seller</Ribbon>)
+    renderWithTheme(
+      <Ribbon ribbonColor="secondary" ribbonLabel="Best Seller" />
+    )
 
     expect(screen.getByText(/best seller/i)).toHaveStyle({
       backgroundColor: '#3CD3C1'
@@ -29,7 +26,7 @@ describe('<Ribbon />', () => {
   })
 
   it('should render with normal size as default', () => {
-    renderWithTheme(<Ribbon>Best Seller</Ribbon>)
+    renderWithTheme(<Ribbon ribbonLabel="Best Seller" />)
 
     expect(screen.getByText(/best seller/i)).toHaveStyle({
       height: '3.6rem',
@@ -38,7 +35,7 @@ describe('<Ribbon />', () => {
   })
 
   it('should render a small size', () => {
-    renderWithTheme(<Ribbon size="small">Best Seller</Ribbon>)
+    renderWithTheme(<Ribbon ribbonSize="small" ribbonLabel="Best Seller" />)
 
     expect(screen.getByText(/best seller/i)).toHaveStyle({
       height: '2.6rem',

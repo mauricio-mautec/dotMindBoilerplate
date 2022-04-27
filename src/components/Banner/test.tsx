@@ -1,14 +1,14 @@
 import { screen } from '@testing-library/react'
 import { renderWithTheme } from 'utils/tests/helpers'
-
+import { BannerProps } from '.'
 import Banner from '.'
 
-const props = {
+const props: BannerProps = {
   img: 'https://source.unsplash.com/user/willianjusten/1042x580',
   title: 'Defy death',
   subtitle: '<p>Play the new <strong>CrashLands</strong> season',
-  buttonlabel: 'Buy now',
-  buttonlink: '/games/defy-death'
+  buttonLabel: 'Buy now',
+  buttonLink: '/games/defy-death'
 }
 
 // 5 - CRIAR OS TESTES
@@ -28,5 +28,18 @@ describe('<Banner />', () => {
     expect(screen.getByRole('img', { name: /defy death/i })).toBeInTheDocument()
 
     expect(container.firstChild).toMatchSnapshot()
+  })
+
+  it('should render a Ribbon', () => {
+    renderWithTheme(
+      <Banner
+        {...props}
+        ribbonLabel="My Ribbon"
+        ribbonSize="small"
+        ribbonColor="secondary"
+      />
+    )
+    const ribbon = screen.getByText(/my ribbon/i)
+    expect(ribbon).toBeInTheDocument()
   })
 })
