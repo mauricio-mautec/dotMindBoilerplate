@@ -348,7 +348,7 @@ yarn add eslint-plugin-react-hooks --dev
 yarn add @next/eslint-plugin-next --dev
 ```
 
-vi .eslitrc.json
+vi .eslintrc.json
 
 ```json
 {
@@ -385,7 +385,8 @@ vi .eslitrc.json
       "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
 ```
@@ -404,7 +405,7 @@ vi ~/MeuProjeto/frontpage/package.json
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint 'src/**/*.{js,jsx}'"
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0"
   },
   "dependencies": {
     "next": "12.1.0",
@@ -491,7 +492,8 @@ vi ~/MeuProjeto/frontpage/.eslintrc.json
       "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
 ```
@@ -549,7 +551,10 @@ vi package.json
     "lint": "eslint  'src/**/*.{js,jsx}' --max-warnings=0"
   },
   "lint-staged": {
-  		"src/**/*": [ "yarn lint --fix" ]
+  		"src/**/*": [ 
+        "yarn lint --fix",
+        "yarn test --findRelatedTests --bail"
+      ]
   },
   "dependencies": {
     "next": "12.1.0",

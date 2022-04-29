@@ -11,7 +11,7 @@ export const Wrapper = styled.article`
   `}
 `
 type ImageBoxProps = {
-  backgroundColor?: 'black' | 'gray' | 'white'
+  backgroundColor?: 'black' | 'gray' | 'white' | 'none'
 }
 
 const imageBoxModifiers = {
@@ -23,7 +23,8 @@ const imageBoxModifiers = {
   `,
   white: (theme: DefaultTheme) => css`
     background-color: ${theme.colors.white};
-  `
+  `,
+  none: () => css``
 }
 
 export const ImageBox = styled.div<ImageBoxProps>`

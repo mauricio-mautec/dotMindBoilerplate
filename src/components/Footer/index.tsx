@@ -3,7 +3,32 @@ import Logo from 'components/Logo'
 import * as S from './styles'
 import Link from 'next/link'
 
-const Footer = () => (
+export type FooterProps = {
+  instagram?: string
+  twitter?: string
+  youtube?: string
+  facebook?: string
+  sacmsg?: string
+  sacemail?: string
+  copywright?: string
+}
+
+export type FooterArgs = {
+  item: FooterProps
+}
+// href=
+// href=
+// href=
+
+const Footer = ({
+  instagram = 'https://www.instagram.com/won-games',
+  twitter = 'https://www.twitter.com/won-games',
+  youtube = 'https://www.youtube.com/won-games',
+  facebook = 'https://www.facebook.com',
+  sacemail = 'mailto:"sac@wongames.com"',
+  sacmsg = 'Atendimento Consumidor',
+  copywright = 'Won Games 2020 © All rights reserved.'
+}: FooterProps) => (
   <S.Wrapper>
     <Logo color="black" />
     <S.Content>
@@ -11,7 +36,7 @@ const Footer = () => (
         <Heading color="black" size="small" lineBottom lineColor="secondary">
           Contact
         </Heading>
-        <a href="mailto:sac@wongames.com">sac@wongames.com</a>
+        <a href={sacemail}>{sacmsg}</a>
       </S.Column>
       <S.Column>
         <Heading color="black" lineColor="secondary" lineBottom size="small">
@@ -19,32 +44,16 @@ const Footer = () => (
         </Heading>
 
         <nav aria-labelledby="social media">
-          <a
-            href="https://www.instagram.com/won-games"
-            target="_blank"
-            rel="noopenner, noreferrer"
-          >
+          <a href={instagram} target="_blank" rel="noopenner, noreferrer">
             Instagram
           </a>
-          <a
-            href="https://www.twitter.com/won-games"
-            target="_blank"
-            rel="noopenner, noreferrer"
-          >
+          <a href={twitter} target="_blank" rel="noopenner, noreferrer">
             Twitter
           </a>
-          <a
-            href="https://www.youtube.com/won-games"
-            target="_blank"
-            rel="noopenner, noreferrer"
-          >
+          <a href={youtube} target="_blank" rel="noopenner, noreferrer">
             Youtube
           </a>
-          <a
-            href="https://www.facebook.com/won-games"
-            target="_blank"
-            rel="noopenner, noreferrer"
-          >
+          <a href={facebook} target="_blank" rel="noopenner, noreferrer">
             Facebook
           </a>
         </nav>
@@ -75,7 +84,7 @@ const Footer = () => (
         <span>Lorem, ipsum dolor.</span>
       </S.Column>
     </S.Content>
-    <S.Copyright>Won Games 2020 © All rights reserved.</S.Copyright>
+    <S.Copyright>{copywright}</S.Copyright>
   </S.Wrapper>
 )
 

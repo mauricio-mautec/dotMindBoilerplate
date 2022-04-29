@@ -1,4 +1,4 @@
-import Button2 from 'components/Button2'
+import Button from 'components/Button'
 import Ribbon, { RibbonProps } from 'components/Ribbon'
 import * as S from './styles'
 
@@ -35,9 +35,9 @@ const Banner = ({
     <S.Caption>
       <S.Title>{title}</S.Title>
       <S.Subtitle dangerouslySetInnerHTML={{ __html: subtitle }} />
-      <Button2 as="a" href={buttonLink} size="large">
+      <Button as="a" href={buttonLink} size="large">
         {buttonLabel}
-      </Button2>
+      </Button>
     </S.Caption>
   </S.Wrapper>
 )

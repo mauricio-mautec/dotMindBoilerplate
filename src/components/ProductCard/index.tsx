@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Button2 from 'components/Button2'
+import Button from 'components/Button'
 import Ribbon, { RibbonProps } from 'components/Ribbon'
 import {
   FavoriteBorder,
@@ -18,7 +18,7 @@ export type ProductCardProps = {
   img: string
   price: string
   promotionalPrice?: string
-  background?: 'black' | 'gray' | 'white'
+  background?: 'black' | 'gray' | 'white' | 'none'
   favorite?: boolean
   onFav?: () => void
 } & RibbonProps
@@ -27,7 +27,7 @@ const ProductCard = ({
   title,
   subtitle,
   img,
-  background = 'gray',
+  background = 'none',
   price,
   promotionalPrice,
   favorite = false,
@@ -62,7 +62,7 @@ const ProductCard = ({
       <S.BuyBox>
         {!!promotionalPrice && <S.Price isPromotional>{price}</S.Price>}
         <S.Price>{promotionalPrice || price}</S.Price>
-        <Button2 icon={<AddShoppingCart />} size="small" />
+        <Button icon={<AddShoppingCart />} size="small" />
       </S.BuyBox>
     </S.Content>
   </S.Wrapper>

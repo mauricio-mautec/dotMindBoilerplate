@@ -1,5 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { relative } from 'path'
 
 import Highlight from '.'
 

@@ -28,7 +28,7 @@ describe('<Highlight />', () => {
   it('should render a button', () => {
     renderWithTheme(<Highlight {...props} />)
 
-    expect(screen.getByRole('link', { href: /r2d2/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /buy now/i })).toBeInTheDocument()
   })
 
   it('should render background image', () => {
