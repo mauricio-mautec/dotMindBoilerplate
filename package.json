@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "test": "jest --modulePaths=src",
     "test:ci": "jest --modulePaths=src",
     "test:watch": "yarn test --watch",
@@ -64,7 +65,7 @@
     "jake": "^10.8.4",
     "jest": "^27.5.1",
     "jest-styled-components": "^7.0.8",
-    "lint-staged": "^12.3.4",
+    "lint-staged": "^12.4.1",
     "plop": "^3.0.5",
     "prettier": "2.5.1",
     "typescript": "4.5.5"
