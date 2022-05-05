@@ -38,29 +38,29 @@ exports[`<Checkbox /> should render with label 1`] = `
   appearance: none;
   width: 1.8rem;
   height: 1.8rem;
-  border: 0.2rem solid #2E2F42;
+  border: 0.2rem solid #F231A5;
   border-radius: 0.2rem;
   -webkit-transition: background border 0.1s ease-in-out;
   transition: background border 0.1s ease-in-out;
-  position: relative;
   outline: none;
+  position: relative;
 }
 
 .c1:before {
   content: '';
   width: 0.6rem;
   height: 0.9rem;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  opacity: 0;
+  position: absolute;
   border: 0.2rem solid #FAFAFA;
   border-top: 0;
   border-left: 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  position: absolute;
   top: 0.1rem;
-  opacity: 0;
-  -webkit-transition: 0.1s ease-in-out;
-  transition: 0.1s ease-in-out;
 }
 
 .c1:focus {

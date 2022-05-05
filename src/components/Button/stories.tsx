@@ -18,11 +18,33 @@ Basic.args = {
   children: 'Buy Now',
   size: 'medium'
 }
+Basic.argTypes = {
+  icon: {
+    table: {
+      disable: true
+    }
+  },
+  as: {
+    control: 'select',
+    options: ['a', 'button']
+  }
+}
 
 withIcon.args = {
   children: 'Buy Now Icon',
   size: 'small',
   icon: <AddShoppingCart />
+}
+withIcon.argTypes = {
+  icon: {
+    table: {
+      disable: true
+    }
+  },
+  as: {
+    control: 'select',
+    options: ['a', 'button']
+  }
 }
 
 asLink.args = {
@@ -30,4 +52,14 @@ asLink.args = {
   children: 'Buy now',
   as: 'a',
   href: '/link'
+}
+asLink.argTypes = {
+  icon: {
+    table: {
+      disable: true
+    }
+  },
+  as: {
+    table: { disable: true }
+  }
 }

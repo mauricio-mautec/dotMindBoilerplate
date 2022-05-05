@@ -1,10 +1,9 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { CheckboxChecked } from 'styled-icons/fluentui-system-regular'
 
 import Checkbox from '.'
 
 export default {
-  title: 'Checkbox',
+  title: 'Form/Checkbox',
   component: Checkbox
 } as ComponentMeta<typeof Checkbox>
 
@@ -16,7 +15,7 @@ const multipleTemplate: ComponentStory<typeof Checkbox> = (args) => (
   <>
     <div style={{ padding: 10 }}>
       <Checkbox
-        name="action"
+        name="action1"
         label="Action"
         labelFor="action1"
         value="Action"
@@ -26,7 +25,7 @@ const multipleTemplate: ComponentStory<typeof Checkbox> = (args) => (
     </div>
     <div style={{ padding: 10 }}>
       <Checkbox
-        name="action"
+        name="action2"
         label="Adventure"
         labelFor="action2"
         isChecked
@@ -34,29 +33,39 @@ const multipleTemplate: ComponentStory<typeof Checkbox> = (args) => (
       />
     </div>
     <div style={{ padding: 10 }}>
-      <Checkbox label="Strategy" name="action" labelFor="action3" {...args} />
+      <Checkbox label="Strategy" name="action3" labelFor="action3" {...args} />
     </div>
   </>
 )
 export const Basic = Template.bind({})
-
 Basic.args = {
   label: 'ZappoliS',
   labelFor: 'action',
-  labelColor: 'black'
+  labelColor: 'white'
+}
+Basic.parameters = {
+  backgrounds: {
+    default: 'won-dark'
+  }
 }
 
 export const Checked = Template.bind({})
-
 Checked.args = {
   label: 'ZappoliS',
   labelFor: 'action',
   labelColor: 'black',
   isChecked: true
 }
+Checked.parameters = {
+  backgrounds: {
+    default: 'won-light'
+  }
+}
 
 export const Multiple = multipleTemplate.bind({})
-
+Multiple.args = {
+  labelColor: 'white'
+}
 Multiple.parameters = {
   layout: 'fullscreen',
   backgrounds: {
