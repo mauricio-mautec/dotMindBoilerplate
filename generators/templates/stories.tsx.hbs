@@ -10,3 +10,7 @@ export default {
 const Template: ComponentStory<typeof {{pascalCase name}}> = (args) => <{{pascalCase name}} {...args} />
 
 export const Basic = Template.bind({})
+
+Basic.args = {
+   label: '{{pascalCase name}}'
+}
