@@ -92,4 +92,4 @@ exports[`<Checkbox /> should render with label 1`] = `
     checkbox label
   </label>
 </main>
-`;
+`
