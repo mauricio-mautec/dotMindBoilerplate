@@ -106,12 +106,12 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
 }
 
 .c8 a:hover {
-  color: #249f90;
-  border-bottom: 0.1rem solid #249f90;
+  color: #29b3a3;
+  border-bottom: 0.1rem solid #29b3a3;
 }
 
 <div>
-  <main
+  <div
     class="c0"
   >
     <div
@@ -290,6 +290,6 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
         Sign In
       </a>
     </div>
-  </main>
+  </div>
 </div>
-`;
+`

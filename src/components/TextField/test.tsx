@@ -1,6 +1,5 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '@testing-library/user-event/dist/types/utils'
 import { Email } from 'styled-icons/material-outlined'
 import { renderWithTheme } from 'utils/tests/helpers'
 

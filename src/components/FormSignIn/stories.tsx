@@ -16,5 +16,7 @@ const Template: ComponentStory<typeof FormSignIn> = (args) => (
 export const Basic = Template.bind({})
 
 Basic.args = {
-  label: 'FormSignIn'
+  labelLinkAccount: 'Do not have an account?',
+  labelButton: 'Sign in now',
+  labelLinkPassword: 'Forgot your password?'
 }

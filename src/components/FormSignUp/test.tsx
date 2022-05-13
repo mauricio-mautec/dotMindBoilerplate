@@ -5,7 +5,9 @@ import FormSignUp from '.'
 
 describe('<FormSignUp />', () => {
   it('Renders with placeholder', () => {
-    const { container } = renderWithTheme(<FormSignUp />)
+    const { container } = renderWithTheme(
+      <FormSignUp labelLinkAccount="Already have an account?" />
+    )
 
     expect(screen.getByPlaceholderText('Name')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument()

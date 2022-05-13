@@ -16,5 +16,5 @@ const Template: ComponentStory<typeof FormSignUp> = (args) => (
 export const Basic = Template.bind({})
 
 Basic.args = {
-  label: 'FormSignUp'
+  labelLinkAccount: 'Already have an account?'
 }

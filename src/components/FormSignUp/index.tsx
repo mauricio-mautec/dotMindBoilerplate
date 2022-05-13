@@ -1,15 +1,16 @@
 import Button from 'components/Button'
 import TextField from 'components/TextField'
 import Link from 'next/link'
+
 import { AccountCircle, Email, Lock } from 'styled-icons/material-outlined'
-
-import * as S from './styles'
-
+import { FormWrapper, FormLink } from 'components/Form'
 export type FormSignUpProps = {
-  label?: string
+  labelLinkAccount: string
 }
-const FormSignUp = ({ label }: FormSignUpProps) => (
-  <S.Wrapper>
+const FormSignUp = ({
+  labelLinkAccount = 'Already have an account?'
+}: FormSignUpProps) => (
+  <FormWrapper>
     <TextField
       name="name"
       placeholder="Name"
@@ -34,13 +35,13 @@ const FormSignUp = ({ label }: FormSignUpProps) => (
       Create Account
     </Button>
 
-    <S.FormLink>
-      Already have an account?{' '}
+    <FormLink>
+      {labelLinkAccount}{' '}
       <Link href="/sign-in">
         <a>Sign In</a>
       </Link>
-    </S.FormLink>
-  </S.Wrapper>
+    </FormLink>
+  </FormWrapper>
 )
 
 export default FormSignUp

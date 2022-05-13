@@ -71,4 +71,4 @@ exports[`<TextField /> should render a error message 1`] = `
     Ops..something is wrong
   </label>
 </div>
-`;
+`
