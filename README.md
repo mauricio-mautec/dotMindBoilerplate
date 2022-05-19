@@ -21,9 +21,11 @@
 ### dotMind é um grupo formado para o desenvolvimento de sistemas. Este repositório tem por finalidade facilitar a criação de um ambiente de desenvolvimento baseado nas tecnologias NextJS, TypeScript, Strapi, Postgres dentre outras.
 ### Este boilerplate foi testado em máquinas com chips Apple M1 
 ### { INSERIR REFERENCIA AO BOILERPLATE DO WILLIAN JUSTEN}
+```
+yarn create next-app -e https://github.com/<repositorio boilerplate> <nome do projeto>
+```
 
 ## Parte I - Docker Strapi Postgres
-
 - CRIAR CONTA PARA USO DO DOCKER
 
   [Criar conta no Docker](https://hub.docker.com)

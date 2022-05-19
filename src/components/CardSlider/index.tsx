@@ -6,11 +6,6 @@ import Slider, { SliderSettings } from 'components/Slider'
 
 import * as S from './styles'
 
-export type CardSliderProps = {
-  items: ProductCardProps[]
-  color?: 'black' | 'white'
-}
-
 const settings: SliderSettings = {
   arrows: true,
   nextArrow: <ArrowRight aria-label="next product" />,
@@ -50,6 +45,10 @@ const settings: SliderSettings = {
   ]
 }
 
+export type CardSliderProps = {
+  items: ProductCardProps[]
+  color?: 'black' | 'white'
+}
 const CardSlider = ({ items, color = 'white' }: CardSliderProps) => (
   <S.Wrapper color={color}>
     <Slider settings={settings}>
