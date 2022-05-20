@@ -76,6 +76,7 @@ export type GalleryProps = {
 const Gallery = ({ items, color = 'white' }: GalleryProps) => {
   const sliderRef = useRef<SlickSlider>(null)
   const [isOpen, setIsOpen] = useState(false)
+
   useEffect(() => {
     const handleKeyUp = ({ key }: KeyboardEvent) => {
       key == 'Escape' && setIsOpen(false)
@@ -86,10 +87,6 @@ const Gallery = ({ items, color = 'white' }: GalleryProps) => {
     return () => window.removeEventListener('keyup', handleKeyUp)
   }, [])
 
-  const fecha = () => {
-    console.log('EU FUI CHAMADO')
-    setIsOpen(false)
-  }
   return (
     <S.Wrapper color={color}>
       <Slider ref={sliderRef} settings={settings}>
@@ -114,7 +111,7 @@ const Gallery = ({ items, color = 'white' }: GalleryProps) => {
           role="button"
           aria-expanded="true"
           aria-label="close modal"
-          onClick={() => fecha()}
+          onClick={() => setIsOpen(false)}
         >
           <CloseButton size={40} />
         </S.Close>

@@ -1,6 +1,6 @@
 import '../../../.jest/match-media-mock'
 
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { renderWithTheme } from 'utils/tests/helpers'
 
 import Gallery from '.'
@@ -50,5 +50,16 @@ describe('<Gallery />', () => {
 
     expect(modal.getAttribute('aria-hidden')).toBe('true')
     expect(modal).toHaveStyle({ opacity: 0 })
+  })
+
+  it('should open Modal with selected image', async () => {
+    renderWithTheme(<Gallery items={mockItems.slice(0, 2)} color="white" />)
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /thumb - gallery image 2/i })
+    )
+
+    const img = await screen.findByRole('img', { name: /gallery image 2/i })
+    expect(img.parentElement?.parentElement).toHaveClass('slick-active')
   })
 })
