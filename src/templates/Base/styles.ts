@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
 `
 // Container para relocar {children} para ocupar a parte inicial da
-// tela após o <Menu>
+// tela após o <Menu>: flex
 export const Content = styled.div`
   flex: 1 0 auto;
 `

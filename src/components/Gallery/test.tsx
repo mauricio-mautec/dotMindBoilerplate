@@ -1,6 +1,6 @@
 import '../../../.jest/match-media-mock'
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import { renderWithTheme } from 'utils/tests/helpers'
 
 import Gallery from '.'

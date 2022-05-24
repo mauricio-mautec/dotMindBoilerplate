@@ -31,7 +31,7 @@ const wrapperModifier = {
 }
 
 export const Wrapper = styled.div<LogoProps>`
-  ${({ theme, size, hideOnMobile }) => css`
+  ${({ size, hideOnMobile }) => css`
     ${!!size && wrapperModifier[size]};
     ${!!hideOnMobile && wrapperModifier.hideOnMobile};
   `}
@@ -39,36 +39,41 @@ export const Wrapper = styled.div<LogoProps>`
 export const SVGWrapper = styled.svg`
   fill: #f2c22f;
 
-.base2 {
-  fill: #B93325;
-}
+  .base2 {
+    fill: #b93325;
+  }
 
-.base3 {
-  fill: #4A1C0A;
-}
+  .base3 {
+    fill: #4a1c0a;
+  }
 
-.base4 {
-  fill: #321710;
-}
+  .base4 {
+    fill: #321710;
+  }
 
+  #logo {
+    transform-origin: 0 0;
+    animation: color 3s steps(200);
+    fill: #f2c22f;
+  }
 
-#logo {
-transform-origin: 0 0;
-animation: color 3s steps(200);
-fill: #f2c22f;
-}
+  #TR {
+    transform-origin: center center;
+    animation: color 3s steps(100) alternate infinite;
+  }
 
-
-#TR {
-  transform-origin: center center;
-  animation: color 3s steps(100) alternate infinite;
-}
-
-@keyframes color {
-   0% {fill: #321710}
-  50% {fill: #4A1C0A}
-  75% {fill: #B93325}
- 100% {fill: #f2c22f}
-}
-
+  @keyframes color {
+    0% {
+      fill: #321710;
+    }
+    50% {
+      fill: #4a1c0a;
+    }
+    75% {
+      fill: #b93325;
+    }
+    100% {
+      fill: #f2c22f;
+    }
+  }
 `
