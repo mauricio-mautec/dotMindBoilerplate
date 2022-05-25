@@ -1,14 +1,14 @@
-import { Container } from 'components/Container'
+import Base from 'templates/Base'
+
 import { BannerProps } from 'components/Banner'
 import { ProductCardProps } from 'components/ProductCard'
-import Highlight, { HighlightProps } from 'components/Highlight'
-import Menu from 'components/Menu'
-import Footer from 'components/Footer'
-import Heading from 'components/Heading'
-import CardSlider from 'components/CardSlider'
-import BannerSlider from 'components/BannerSlider'
+import { HighlightProps } from 'components/Highlight'
+
+import { Container } from 'components/Container'
+import Showcase from 'components/Showcase'
 
 import * as S from './styles'
+import BannerSlider from 'components/BannerSlider'
 
 export type HomeTemplateProps = {
   banners: BannerProps[]
@@ -32,9 +32,8 @@ const Home = ({
   freeProducts,
   freeHighlight
 }: HomeTemplateProps) => (
-  <section>
+  <Base>
     <Container>
-      <Menu />
       <S.SectionBanner>
         <BannerSlider items={banners} />
       </S.SectionBanner>
@@ -42,47 +41,55 @@ const Home = ({
 
     <S.SectionNews>
       <Container>
-        <Heading lineLeft lineColor="secondary">
-          News
-        </Heading>
-
-        <CardSlider items={newProducts} color="black" />
-      </Container>{' '}
+        <Showcase
+          heading={{ lineLeft: true, lineColor: 'secondary', children: 'News' }}
+          cardslider={{ items: newProducts, color: 'black' }}
+        />
+      </Container>
     </S.SectionNews>
 
-    <Container>
-      <S.SectionMostPopular>
-        <Heading lineLeft lineColor="secondary" color="white">
-          Most Popular
-        </Heading>
-        <Highlight {...mostPopularHighlight} />
-        <CardSlider items={mostPopularProducts} color="white" />
-      </S.SectionMostPopular>
+    <S.SectionMostPopular>
+      <Showcase
+        heading={{
+          lineLeft: true,
+          lineColor: 'secondary',
+          color: 'white',
+          children: 'Most Popular'
+        }}
+        highlight={{ ...mostPopularHighlight }}
+        cardslider={{ items: mostPopularProducts, color: 'white' }}
+      />
+    </S.SectionMostPopular>
 
-      <S.SectionMostPopular>
-        <Heading lineLeft lineColor="secondary" color="white">
-          Upcomming
-        </Heading>
-        <CardSlider items={upcommingProducts} />
-        <Highlight {...upcommingHighlight} />
-        <CardSlider items={upcommingMoreProducts} />
-      </S.SectionMostPopular>
+    <S.SectionUpcoming>
+      <Showcase
+        heading={{
+          lineLeft: true,
+          lineColor: 'secondary',
+          color: 'white',
+          children: 'Upcomming'
+        }}
+        cardslider={{ items: upcommingProducts }}
+      />
+      <Showcase
+        highlight={{ ...upcommingHighlight }}
+        cardslider={{ items: upcommingMoreProducts }}
+      />
+    </S.SectionUpcoming>
 
-      <S.SectionFreeGames>
-        <Heading lineLeft lineColor="secondary" color="white">
-          Free Games
-        </Heading>
-        <Highlight {...freeHighlight} />
-        <CardSlider items={freeProducts} />
-      </S.SectionFreeGames>
-    </Container>
-
-    <S.SectionFooter>
-      <Container>
-        <Footer />
-      </Container>
-    </S.SectionFooter>
-  </section>
+    <S.SectionFreeGames>
+      <Showcase
+        heading={{
+          lineLeft: true,
+          lineColor: 'secondary',
+          color: 'white',
+          children: 'Free Games'
+        }}
+        highlight={{ ...freeHighlight }}
+        cardslider={{ items: freeProducts }}
+      />
+    </S.SectionFreeGames>
+  </Base>
 )
 
 export default Home

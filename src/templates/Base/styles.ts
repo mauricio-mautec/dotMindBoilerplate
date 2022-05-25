@@ -15,7 +15,10 @@ export const Wrapper = styled.div`
 // Container para relocar {children} para ocupar a parte inicial da
 // tela após o <Menu>: flex
 export const Content = styled.div`
-  flex: 1 0 auto;
+  ${({ theme }) => css`
+    margin-top: ${theme.spacings.xlarge};
+    flex: 1 0 auto;
+  `}
 `
 
 export const SectionFooter = styled.section`

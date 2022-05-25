@@ -9,7 +9,7 @@ const Sections = styled.section`
   ${({ theme }) => css`
     ${HeadingStyles.Wrapper},
     ${HighlightStyles.Wrapper},
-  ${CardSliderStyles.Wrapper} {
+    ${CardSliderStyles.Wrapper} {
       margin-bottom: ${theme.spacings.medium};
     }
     ${HighlightStyles.Wrapper} {
@@ -28,9 +28,10 @@ const Sections = styled.section`
 `
 export const SectionBanner = styled.section`
   ${({ theme }) => css`
-    margin: ${theme.spacings.large} calc(-${theme.grid.gutter} / 2);
+    margin: 0 calc(-${theme.grid.gutter} / 2) ${theme.spacings.large};
+
     ${media.greaterThan('medium')`
-      margin: ${theme.spacings.large} 0;
+      margin-bottom: ${theme.spacings.large};
       position: relative;
       z-index: ${theme.layers.base};
     `}
@@ -56,27 +57,12 @@ export const SectionNews = styled(Sections)`
 `
 
 export const SectionMostPopular = styled(Sections)``
+export const SectionFreeGames = styled(Sections)``
 
 export const SectionUpcoming = styled(Sections)`
   ${({ theme }) => css`
     ${HighlightStyles.Wrapper} {
       margin-top: calc(${theme.spacings.xlarge} * 2);
     }
-  `}
-`
-
-export const SectionFreeGames = styled(Sections)``
-
-export const SectionFooter = styled.section`
-  ${({ theme }) => css`
-    margin-top: ${theme.spacings.large};
-    padding-bottom: ${theme.spacings.xsmall};
-    padding-top: ${theme.spacings.xxlarge};
-    background-color: ${theme.colors.white};
-    clip-path: polygon(0 5%, 100% 0%, 100% 100%, 0 100%);
-    ${media.greaterThan('medium')`
-       padding-top: calc(${theme.spacings.xxlarge} * 2);
-       clip-path: polygon(0 15%, 100% 0%, 100% 100%, 0 100%);
-     `}
   `}
 `
