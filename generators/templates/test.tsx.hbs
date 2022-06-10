@@ -5,9 +5,10 @@ import {{pascalCase name}} from '.'
 
 describe('<{{pascalCase name}} />', () => {
   it('should render the heading', () => {
-    const { container } = render(<{{pascalCase name}} label="{{pascalCase name}}"/>)
-    expect(screen.getByRole('heading', { name: /{{pascalCase name}}/i })).toBeInTheDocument
+    //const { container } =
+    renderWithTheme(<{{pascalCase name}} label="{{pascalCase name}}"/>)
+    expect(screen.getByRole('heading', { name: /{{pascalCase name}}/i })).toBeInTheDocument()
 
-    expect(container.firstChild).toMatchSnapshot()
+    //expect(container.firstChild).toMatchSnapshot()
   })
 })

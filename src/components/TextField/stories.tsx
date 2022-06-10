@@ -31,7 +31,6 @@ withIcon.args = {
   labelFor: 'Email',
   id: 'Email',
   initialValue: '',
-  placeholder: 'mauricio@zappolis.com',
   icon: <Email />
 }
 
