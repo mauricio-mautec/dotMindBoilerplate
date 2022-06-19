@@ -13,6 +13,7 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
 export const Basic = Template.bind({})
 export const withIcon = Template.bind({})
 export const asLink = Template.bind({})
+export const asDisabledButton = Template.bind({})
 
 Basic.args = {
   children: 'Buy Now',
@@ -54,6 +55,23 @@ asLink.args = {
   href: '/link'
 }
 asLink.argTypes = {
+  icon: {
+    table: {
+      disable: true
+    }
+  },
+  as: {
+    table: { disable: true }
+  }
+}
+asDisabledButton.args = {
+  size: 'large',
+  children: 'Buy now',
+  as: 'button',
+  href: '/link',
+  disabled: true
+}
+asDisabledButton.argTypes = {
   icon: {
     table: {
       disable: true

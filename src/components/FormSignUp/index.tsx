@@ -12,20 +12,25 @@ const FormSignUp = ({
 }: FormSignUpProps) => (
   <FormWrapper>
     <TextField
-      name="name"
+      label="name"
       placeholder="Name"
       type="name"
       icon={<AccountCircle />}
     />
-    <TextField name="email" placeholder="Email" type="email" icon={<Email />} />
     <TextField
-      name="password"
+      label="email"
+      placeholder="Email"
+      type="email"
+      icon={<Email />}
+    />
+    <TextField
+      label="password"
       placeholder="Password"
       type="password"
       icon={<Lock />}
     />
     <TextField
-      name="confirmation"
+      label="confirmation"
       placeholder="Confirm Password"
       type="password"
       icon={<Lock />}

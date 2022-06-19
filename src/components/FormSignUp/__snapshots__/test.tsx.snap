@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<FormSignUp /> Renders with placeholder 1`] = `
-.c7 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -28,11 +28,17 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   width: 100%;
 }
 
-.c7:hover {
+.c8:hover {
   background: linear-gradient(180deg,#e35565 0%,#d958a6 50%);
 }
 
 .c2 {
+  font-size: 1.4rem;
+  color: #030517;
+  cursor: pointer;
+}
+
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -44,11 +50,11 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   border-color: #EAEAEA;
 }
 
-.c2:focus-within {
+.c3:focus-within {
   box-shadow: 0 0 0.5rem #F231A5;
 }
 
-.c5 {
+.c6 {
   color: #030517;
   font-family: Poppins,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;
   font-size: 1.6rem;
@@ -60,7 +66,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   width: 100%;
 }
 
-.c3 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -72,11 +78,11 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   order: 0;
 }
 
-.c3 > svg {
+.c4 > svg {
   width: 100%;
 }
 
-.c4 {
+.c5 {
   display: inline-block;
   vertical-align: middle;
   overflow: hidden;
@@ -86,17 +92,17 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   margin: 0.8rem 0;
 }
 
-.c0 .c6 {
+.c0 .c7 {
   margin: 3.2rem auto 1.6rem;
 }
 
-.c8 {
+.c9 {
   font-size: 1.4rem;
   color: #030517;
   text-align: center;
 }
 
-.c8 a {
+.c9 a {
   color: #3CD3C1;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -105,7 +111,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
   transition: color,border,0.1s ease-in-out;
 }
 
-.c8 a:hover {
+.c9 a:hover {
   color: #29b3a3;
   border-bottom: 0.1rem solid #29b3a3;
 }
@@ -117,15 +123,21 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     <div
       class="c1 "
     >
-      <div
+      <label
         class="c2"
+        for="name"
+      >
+        name
+      </label>
+      <div
+        class="c3"
       >
         <div
-          class="c3"
+          class="c4"
         >
           <svg
             aria-hidden="true"
-            class="c4"
+            class="c5"
             fill="currentColor"
             focusable="false"
             viewBox="0 0 24 24"
@@ -141,9 +153,8 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
           </svg>
         </div>
         <input
-          class="c5"
-          id=""
-          name="name"
+          class="c6"
+          id="name"
           placeholder="Name"
           type="name"
           value=""
@@ -153,15 +164,21 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     <div
       class="c1 "
     >
-      <div
+      <label
         class="c2"
+        for="email"
+      >
+        email
+      </label>
+      <div
+        class="c3"
       >
         <div
-          class="c3"
+          class="c4"
         >
           <svg
             aria-hidden="true"
-            class="c4"
+            class="c5"
             fill="currentColor"
             focusable="false"
             viewBox="0 0 24 24"
@@ -177,9 +194,8 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
           </svg>
         </div>
         <input
-          class="c5"
-          id=""
-          name="email"
+          class="c6"
+          id="email"
           placeholder="Email"
           type="email"
           value=""
@@ -189,15 +205,21 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     <div
       class="c1 "
     >
-      <div
+      <label
         class="c2"
+        for="password"
+      >
+        password
+      </label>
+      <div
+        class="c3"
       >
         <div
-          class="c3"
+          class="c4"
         >
           <svg
             aria-hidden="true"
-            class="c4"
+            class="c5"
             fill="currentColor"
             focusable="false"
             viewBox="0 0 24 24"
@@ -220,9 +242,8 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
           </svg>
         </div>
         <input
-          class="c5"
-          id=""
-          name="password"
+          class="c6"
+          id="password"
           placeholder="Password"
           type="password"
           value=""
@@ -232,15 +253,21 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     <div
       class="c1 "
     >
-      <div
+      <label
         class="c2"
+        for="confirmation"
+      >
+        confirmation
+      </label>
+      <div
+        class="c3"
       >
         <div
-          class="c3"
+          class="c4"
         >
           <svg
             aria-hidden="true"
-            class="c4"
+            class="c5"
             fill="currentColor"
             focusable="false"
             viewBox="0 0 24 24"
@@ -263,9 +290,8 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
           </svg>
         </div>
         <input
-          class="c5"
-          id=""
-          name="confirmation"
+          class="c6"
+          id="confirmation"
           placeholder="Confirm Password"
           type="password"
           value=""
@@ -273,14 +299,14 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
       </div>
     </div>
     <button
-      class="c6 c7"
+      class="c7 c8"
     >
       <span>
         Create Account
       </span>
     </button>
     <div
-      class="c8"
+      class="c9"
     >
       Already have an account?
        
@@ -292,4 +318,4 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     </div>
   </div>
 </div>
-`
+`;

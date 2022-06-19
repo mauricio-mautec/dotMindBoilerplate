@@ -18,9 +18,14 @@ const FormSignIn = ({
   labelLinkAccount = 'Do not have an account?'
 }: FormSignInProps) => (
   <FormWrapper>
-    <TextField name="email" placeholder="Email" type="email" icon={<Email />} />
     <TextField
-      name="password"
+      label="email"
+      placeholder="Email"
+      type="email"
+      icon={<Email />}
+    />
+    <TextField
+      label="password"
       placeholder="Password"
       type="password"
       icon={<Lock />}
