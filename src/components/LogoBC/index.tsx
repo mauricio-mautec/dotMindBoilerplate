@@ -1,12 +1,12 @@
 import * as S from './styles'
 
-export type LogoProps = {
+export type LogoBCProps = {
   size?: 'normal' | 'large'
   hideOnMobile?: boolean
   id?: string
 }
 
-const Logo = ({ size = 'normal', hideOnMobile = false }: LogoProps) => (
+const LogoBC = ({ size = 'normal', hideOnMobile = false }: LogoBCProps) => (
   <S.Wrapper size={size} hideOnMobile={hideOnMobile}>
     <S.SVGWrapper
       xmlns="http://www.w3.org/2000/svg"
@@ -182,4 +182,4 @@ const Logo = ({ size = 'normal', hideOnMobile = false }: LogoProps) => (
   </S.Wrapper>
 )
 
-export default Logo
+export default LogoBC

@@ -1,12 +1,12 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import Logo from '.'
+import LogoBC from '.'
 
 export default {
-  title: 'Logo',
-  component: Logo
-} as ComponentMeta<typeof Logo>
+  title: 'LogoBC',
+  component: LogoBC
+} as ComponentMeta<typeof LogoBC>
 
-const Template: ComponentStory<typeof Logo> = (args) => <Logo {...args} />
+const Template: ComponentStory<typeof LogoBC> = (args) => <LogoBC {...args} />
 
 export const Basic = Template.bind({})
