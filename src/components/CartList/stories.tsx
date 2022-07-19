@@ -25,3 +25,16 @@ Basic.parameters = {
     default: 'won-dark'
   }
 }
+
+export const WithButton = Template.bind({})
+
+WithButton.args = {
+  items: items,
+  total: 'R$ 330,00',
+  hasButton: true
+}
+WithButton.parameters = {
+  backgrounds: {
+    default: 'won-dark'
+  }
+}

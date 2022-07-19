@@ -60,10 +60,10 @@ exports[`<Radio /> should render with label (white) 1`] = `
 }
 
 .c2 {
-  padding-left: 0.8rem;
-  color: #FAFAFA;
-  line-height: 1;
   cursor: pointer;
+  padding-left: 0.8rem;
+  line-height: 1;
+  color: #FAFAFA;
 }
 
 <div
@@ -82,4 +82,4 @@ exports[`<Radio /> should render with label (white) 1`] = `
     Radio
   </label>
 </div>
-`
+`;

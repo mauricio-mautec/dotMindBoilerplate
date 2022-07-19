@@ -17,6 +17,7 @@ export const Footer = styled.div`
     padding: 2rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   `}
 `
 export const Total = styled.p`
