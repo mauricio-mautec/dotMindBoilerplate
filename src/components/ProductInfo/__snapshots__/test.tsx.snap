@@ -63,7 +63,7 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
   height: 5rem;
   font-size: 1.6rem;
   padding: 0.8rem 4.8rem;
-  color: #F231A5;
+  color: #003399;
   background: none;
 }
 
@@ -80,7 +80,7 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
 }
 
 .c8:hover {
-  color: #e20e8d;
+  color: #026;
 }
 
 .c1 {
@@ -96,7 +96,7 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
   bottom: -0.8rem;
   content: '';
   width: 5rem;
-  border-bottom: 0.5rem solid #F231A5;
+  border-bottom: 0.5rem solid #003399;
 }
 
 .c4 {
@@ -116,7 +116,7 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
   padding: 0 1.6rem;
   height: 2.6rem;
   right: -1.5rem;
-  background-color: #3CD3C1;
+  background-color: #E2306C;
 }
 
 .c4::before {
@@ -138,8 +138,8 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
 }
 
 .c4::before {
-  border-left-color: #1f8a7d;
-  border-top-color: #1f8a7d;
+  border-left-color: #971541;
+  border-top-color: #971541;
 }
 
 .c7 {
@@ -164,7 +164,7 @@ exports[`<ProductInfo /> should render the title, description, value and buttons
 
 .c2 {
   font-size: 1.4rem;
-  color: #8F8F8F;
+  color: #8D8D8D;
   margin-bottom: 2.4rem;
 }
 

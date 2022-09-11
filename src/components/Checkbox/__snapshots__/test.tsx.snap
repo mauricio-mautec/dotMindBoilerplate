@@ -38,7 +38,7 @@ exports[`<Checkbox /> should render with label 1`] = `
   appearance: none;
   width: 1.8rem;
   height: 1.8rem;
-  border: 0.2rem solid #F231A5;
+  border: 0.2rem solid #003399;
   border-radius: 0.2rem;
   -webkit-transition: background border 0.1s ease-in-out;
   transition: background border 0.1s ease-in-out;
@@ -64,12 +64,12 @@ exports[`<Checkbox /> should render with label 1`] = `
 }
 
 .c1:focus {
-  box-shadow: 0 0 0.5rem #F231A5;
+  box-shadow: 0 0 0.5rem #003399;
 }
 
 .c1:checked {
-  border-color: #F231A5;
-  background: #F231A5;
+  border-color: #003399;
+  background: #003399;
 }
 
 .c1:checked:before {
@@ -92,4 +92,4 @@ exports[`<Checkbox /> should render with label 1`] = `
     checkbox label
   </label>
 </main>
-`
+`;

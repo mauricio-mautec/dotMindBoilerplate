@@ -31,7 +31,7 @@ exports[`<Radio /> should render with label (white) 1`] = `
   appearance: none;
   width: 1.8rem;
   height: 1.8rem;
-  border: 0.2rem solid #F231A5;
+  border: 0.2rem solid #003399;
   border-radius: 50%;
   -webkit-transition: background 0.1s ease-in-out;
   transition: background 0.1s ease-in-out;
@@ -48,11 +48,11 @@ exports[`<Radio /> should render with label (white) 1`] = `
   opacity: 0;
   position: absolute;
   border-radius: 50%;
-  background: #F231A5;
+  background: #003399;
 }
 
 .c1:focus {
-  box-shadow: 0 0 0.5rem #F231A5;
+  box-shadow: 0 0 0.5rem #003399;
 }
 
 .c1:checked:before {

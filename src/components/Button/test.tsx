@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react'
 import { renderWithTheme } from 'utils/tests/helpers'
 import { AddShoppingCart } from '@styled-icons/material-outlined/AddShoppingCart'
+import theme from 'styles/theme'
 
 import Button from '.'
 
@@ -79,7 +80,7 @@ describe('<Button />', () => {
     // background none e cor primary
     expect(screen.getByRole('button', { name: /buy now/i })).toHaveStyle({
       background: 'none',
-      color: '#F231A5'
+      color: theme.colors.primary
     })
 
     expect(screen.getByRole('button', { name: /buy now/i })).toHaveStyleRule(

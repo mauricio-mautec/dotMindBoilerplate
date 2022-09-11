@@ -18,15 +18,15 @@ exports[`<FormSignIn /> Renders with placeholder 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  background: #EAEAEA;
+  background: #F2F2F2;
   border-radius: 0.2rem;
   padding: 0 1.6rem;
   border: 0.2rem solid;
-  border-color: #EAEAEA;
+  border-color: #F2F2F2;
 }
 
 .c3:focus-within {
-  box-shadow: 0 0 0.5rem #F231A5;
+  box-shadow: 0 0 0.5rem #003399;
 }
 
 .c6 {
@@ -47,7 +47,7 @@ exports[`<FormSignIn /> Renders with placeholder 1`] = `
   display: -ms-flexbox;
   display: flex;
   width: 2.2rem;
-  color: #8F8F8F;
+  color: #8D8D8D;
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
@@ -103,17 +103,17 @@ exports[`<FormSignIn /> Renders with placeholder 1`] = `
 }
 
 .c10 a {
-  color: #3CD3C1;
+  color: #E2306C;
   -webkit-text-decoration: none;
   text-decoration: none;
-  border-bottom: 0.1rem solid #3CD3C1;
+  border-bottom: 0.1rem solid #E2306C;
   -webkit-transition: color,border,0.1s ease-in-out;
   transition: color,border,0.1s ease-in-out;
 }
 
 .c10 a:hover {
-  color: #29b3a3;
-  border-bottom: 0.1rem solid #29b3a3;
+  color: #c41b54;
+  border-bottom: 0.1rem solid #c41b54;
 }
 
 .c7 {

@@ -32,7 +32,7 @@ export const Wrapper = styled.main<WrapperProps>`
 `
 export const Footer = styled.div`
   ${({ theme }) => css`
-    background: ${tint(0.2, theme.colors.lightGray)};
+    background: ${tint(0.2, theme.colors.gray_light)};
     color: ${theme.colors.black};
     font-weight: ${theme.font.bold};
     padding: 2rem;

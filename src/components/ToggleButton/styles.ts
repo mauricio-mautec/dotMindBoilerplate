@@ -37,8 +37,8 @@ const wrapperModifiers = {
       stroke: ${theme.colors.white};
     }
     #mark {
-      fill: ${theme.colors.red};
-      stroke: ${theme.colors.red};
+      fill: ${theme.colors.tertiary};
+      stroke: ${theme.colors.tertiary};
     }
     &:hover {
       background: ${lighten(0.2, theme.colors.black)};

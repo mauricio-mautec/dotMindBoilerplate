@@ -29,7 +29,7 @@ export const Image = styled.div<ImageProps>`
   ${({ theme, src }) => css`
     width: 100%;
     height: 23rem;
-    background-color: ${theme.colors.lightGray};
+    background-color: ${theme.colors.gray_light};
     background-image: url(${src});
     background-position: center;
     background-size: cover;

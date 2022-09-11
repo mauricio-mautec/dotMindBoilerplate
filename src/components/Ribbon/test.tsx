@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { renderWithTheme } from 'utils/tests/helpers'
-
+import theme from 'styles/theme'
 import Ribbon from '.'
 
 // 2 - DESENVOLVER OS TESTES
@@ -11,7 +11,7 @@ describe('<Ribbon />', () => {
 
     expect(screen.getByText(/best seller/i)).toBeInTheDocument()
     expect(screen.getByText(/best seller/i)).toHaveStyle({
-      backgroundColor: '#F231A5'
+      backgroundColor: theme.colors.primary
     })
   })
 
@@ -21,7 +21,7 @@ describe('<Ribbon />', () => {
     )
 
     expect(screen.getByText(/best seller/i)).toHaveStyle({
-      backgroundColor: '#3CD3C1'
+      backgroundColor: theme.colors.secondary
     })
   })
 

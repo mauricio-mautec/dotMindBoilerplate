@@ -14,7 +14,7 @@ export const Label = styled.label`
 export const Wrong = styled.label`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.small};
-    color: ${theme.colors.red};
+    color: ${theme.colors.tertiary};
     cursor: pointer;
     font-size: ${theme.font.sizes.xsmall};
   `}
@@ -23,11 +23,11 @@ export const Wrong = styled.label`
 export const InputWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
-    background: ${theme.colors.lightGray};
+    background: ${theme.colors.gray_light};
     border-radius: 0.2rem;
     padding: 0 ${theme.spacings.xsmall};
     border: 0.2rem solid;
-    border-color: ${theme.colors.lightGray};
+    border-color: ${theme.colors.gray_light};
 
     &:focus-within {
       box-shadow: 0 0 0.5rem ${theme.colors.primary};
@@ -74,12 +74,12 @@ const wrapperModifiers = {
   `,
   wrong: (theme: DefaultTheme) => css`
     ${InputWrapper} {
-      border-color: ${theme.colors.red};
+      border-color: ${theme.colors.tertiary};
     }
 
     ${Label}, ${Icon} {
       cursor: not-allowed;
-      color: ${theme.colors.red};
+      color: ${theme.colors.tertiary};
 
       &::placeholder {
         color: currentColor;

@@ -32,7 +32,7 @@ describe('<ProductCard />', () => {
 
     const price = screen.getByText('R$ 100,00')
     expect(price).not.toHaveStyleRule('text-decoration', 'line-through')
-    expect(price).toHaveStyleRule('color', '#FAFAFA')
+    expect(price).toHaveStyleRule('color', theme.colors.white)
     expect(price).toHaveStyle({ backgroundColor: theme.colors.secondary })
   })
 
@@ -42,9 +42,9 @@ describe('<ProductCard />', () => {
     const fullprice = screen.getByText('R$ 100,00')
     const price = screen.getByText('R$ 50,00')
     expect(fullprice).toHaveStyleRule('text-decoration', 'line-through')
-    expect(fullprice).toHaveStyleRule('color', '#8F8F8F')
+    expect(fullprice).toHaveStyleRule('color', theme.colors.gray)
     expect(price).not.toHaveStyleRule('text-decoration', 'line-through')
-    expect(price).toHaveStyleRule('color', '#FAFAFA')
+    expect(price).toHaveStyleRule('color', theme.colors.white)
   })
 
   it('should render a filled Favorite icon when favorite is true', () => {
@@ -71,7 +71,7 @@ describe('<ProductCard />', () => {
     )
     const ribbon = screen.getByText(/20% off/i)
     expect(ribbon).toBeInTheDocument()
-    expect(ribbon).toHaveStyle({ 'background-color': '#3CD3C1' })
+    expect(ribbon).toHaveStyle({ 'background-color': theme.colors.secondary })
     expect(ribbon).toHaveStyle({ height: '2.6rem', fontSize: '1.2rem' })
   })
 })

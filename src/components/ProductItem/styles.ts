@@ -4,7 +4,7 @@ import media from 'styled-media-query'
 export const Wrapper = styled.main`
   ${({ theme }) => css`
     padding: ${theme.spacings.small};
-    border-bottom: 0.1rem solid ${theme.colors.lightGray};
+    border-bottom: 0.1rem solid ${theme.colors.gray_light};
 
     ${media.greaterThan('medium')`
       display:flex;

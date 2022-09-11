@@ -12,7 +12,7 @@ exports[`<ProfileMenu /> should render the menu 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  border-bottom: 0.1rem solid #EAEAEA;
+  border-bottom: 0.1rem solid #F2F2F2;
 }
 
 .c1 {
@@ -34,7 +34,7 @@ exports[`<ProfileMenu /> should render the menu 1`] = `
 }
 
 .c1:hover {
-  background: #F231A5;
+  background: #003399;
   color: #FAFAFA;
 }
 
@@ -51,7 +51,7 @@ exports[`<ProfileMenu /> should render the menu 1`] = `
   }
 
   .c0 a:not(:last-child) {
-    border-bottom: 0.1rem solid #EAEAEA;
+    border-bottom: 0.1rem solid #F2F2F2;
   }
 }
 

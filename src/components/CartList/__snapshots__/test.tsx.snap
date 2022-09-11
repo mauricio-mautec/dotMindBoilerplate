@@ -16,7 +16,7 @@ exports[`<CartList /> should render the cart list 1`] = `
 }
 
 .c7 {
-  background: #eee;
+  background: #f4f4f4;
   color: #030517;
   font-weight: 600;
   padding: 2rem;
@@ -35,12 +35,12 @@ exports[`<CartList /> should render the cart list 1`] = `
 }
 
 .c8 {
-  color: #F231A5;
+  color: #003399;
 }
 
 .c1 {
   padding: 2.4rem;
-  border-bottom: 0.1rem solid #EAEAEA;
+  border-bottom: 0.1rem solid #F2F2F2;
 }
 
 .c2 {
@@ -90,7 +90,7 @@ exports[`<CartList /> should render the cart list 1`] = `
 .c6 {
   color: #FAFAFA;
   padding: 0.2rem 0.8rem;
-  background-color: #3CD3C1;
+  background-color: #E2306C;
   border-radius: 0.4rem;
   font-size: 1.4rem;
   font-weight: 600;

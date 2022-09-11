@@ -55,7 +55,7 @@ exports[`<Empty /> should render correctly a button link 1`] = `
 }
 
 .c2 {
-  color: #F231A5;
+  color: #003399;
   font-size: 2.8rem;
 }
 

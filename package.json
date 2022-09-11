@@ -18,7 +18,7 @@
     "generate": "yarn plop --plopfile ./generators/plopfile.js"
   },
   "lint-staged": {
-    "src/**/*": [
+    "src/**/*.{ts,tsx}": [
       "yarn lint --fix",
       "yarn test --findRelatedTests --bail"
     ]

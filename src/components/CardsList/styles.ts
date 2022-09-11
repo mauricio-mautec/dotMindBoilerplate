@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 export const Wrapper = styled.main``
 export const Card = styled.div`
   ${({ theme }) => css`
-    background: ${theme.colors.lightGray};
+    background: ${theme.colors.gray_light};
     color: ${theme.colors.black};
     padding: 1.3rem ${theme.spacings.xsmall};
     display: flex;

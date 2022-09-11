@@ -7,7 +7,7 @@ export const Nav = styled.nav`
     width: 26rem;
 
     a:not(:last-child) {
-      border-bottom: 0.1rem solid ${theme.colors.lightGray};
+      border-bottom: 0.1rem solid ${theme.colors.gray_light};
     }
   `}
 `
