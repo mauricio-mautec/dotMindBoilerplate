@@ -11,6 +11,8 @@
     "test": "jest --modulePaths=src",
     "test:ci": "jest --modulePaths=src",
     "test:watch": "yarn test --watch",
+    "schema:download": "apollo client:download-schema --endpoint=http://localhost:1337/graphql schema-temp.gql",
+    "type:generate": "apollo codegen:generate --target typescript --excludes=node_modules/ --includes=src/graphql/**/*.ts --localSchemaFile schema-temp.gql --tagName=gql --outputFlat src/graphql/generated",
     "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook -s ./public",
     "generate": "yarn plop --plopfile ./generators/plopfile.js"
@@ -22,6 +24,12 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@styled-icons/boxicons-regular": "^10.38.0",
+    "@styled-icons/fa-brands": "^10.38.0",
+    "@styled-icons/material-outlined": "^10.34.0",
+    "@styled-icons/remix-fill": "^10.18.0",
+    "graphql": "^15.8.0",
     "next": "12.1.0",
     "next-pwa": "^5.4.5",
     "polished": "^4.2.2",
@@ -30,20 +38,19 @@
     "react-slick": "^0.29.0",
     "styled-components": "^5.3.3",
     "styled-icons": "^10.45.0",
-    "styled-media-query": "^2.1.2",
-    "trim-newlines": "^4.0.2"
+    "styled-media-query": "^2.1.2"
   },
   "resolutions": {
-    "**/trim": "^1.0.1",
+    "**/trim": "^1.0.0",
     "**/glob-parent": "^5.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-typescript": "^7.16.7",
     "@next/eslint-plugin-next": "^12.1.0",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/react": "^6.5.9",
-    "@storybook/testing-library": "^0.0.13",
+    "@storybook/addon-essentials": "^6.5.5",
+    "@storybook/react": "^6.5.5",
+    "@storybook/testing-library": "^0.0.11",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^14.1.1",
@@ -54,6 +61,7 @@
     "@types/styled-components": "^5.1.24",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
+    "apollo": "^2.34.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^8.10.0",
@@ -62,9 +70,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.2",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-storybook": "^0.5.13",
+    "eslint-plugin-storybook": "^0.5.12",
     "husky": "^7.0.4",
-    "jake": "^10.8.4",
     "jest": "^27.5.1",
     "jest-styled-components": "^7.0.8",
     "lint-staged": "^12.4.1",

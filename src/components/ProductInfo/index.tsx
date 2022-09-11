@@ -2,12 +2,13 @@ import Button from 'components/Button'
 import Heading from 'components/Heading'
 import Ribbon from 'components/Ribbon'
 import { FavoriteBorder, AddShoppingCart } from 'styled-icons/material-outlined'
+import formatPrice from 'utils/format.price'
 import * as S from './styles'
 
 export type ProductInfoProps = {
   title: string
   description: string
-  price: string
+  price: number
 }
 
 const ProductInfo = ({ title, description, price }: ProductInfoProps) => (
@@ -16,7 +17,11 @@ const ProductInfo = ({ title, description, price }: ProductInfoProps) => (
       {title}
     </Heading>
     <S.Description>{description}</S.Description>
-    <Ribbon ribbonLabel={price} ribbonColor="secondary" ribbonSize="small" />
+    <Ribbon
+      ribbonLabel={formatPrice(price)}
+      ribbonColor="secondary"
+      ribbonSize="small"
+    />
     <S.ButtonWrapper>
       <Button icon={<AddShoppingCart />} size="large">
         Add to cart

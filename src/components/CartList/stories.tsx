@@ -1,11 +1,17 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { EmptyProps } from 'components/Empty'
 
 import CartList from '.'
 import items from './mock'
 
 export default {
   title: 'CartList',
-  component: CartList
+  component: CartList,
+  parameters: {
+    backgrounds: {
+      default: 'won-dark'
+    }
+  }
 } as ComponentMeta<typeof CartList>
 
 const Template: ComponentStory<typeof CartList> = (args) => (
@@ -15,26 +21,30 @@ const Template: ComponentStory<typeof CartList> = (args) => (
 )
 
 export const Basic = Template.bind({})
+export const WithButton = Template.bind({})
+export const Empty = Template.bind({})
 
 Basic.args = {
   items: items,
   total: 'R$ 330,00'
 }
-Basic.parameters = {
-  backgrounds: {
-    default: 'won-dark'
-  }
-}
-
-export const WithButton = Template.bind({})
 
 WithButton.args = {
   items: items,
   total: 'R$ 330,00',
   hasButton: true
 }
-WithButton.parameters = {
-  backgrounds: {
-    default: 'won-dark'
-  }
+
+const emptyCart: EmptyProps = {
+  description: 'Items added to your cart appear here.',
+  title: 'Your cart is empty',
+  descriptionColor: 'black',
+  imgAlt: 'A gamer playing video game',
+  imgSrc: '/img/empty.svg',
+  hasHomeLink: true,
+  labelHomeLink: 'Go back to store'
+}
+
+Empty.args = {
+  emptyCart
 }

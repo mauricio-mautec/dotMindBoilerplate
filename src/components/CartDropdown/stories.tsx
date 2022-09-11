@@ -26,3 +26,9 @@ Basic.args = {
   items,
   total: 'R$ 330,00'
 }
+
+export const withoutItems = Template.bind({})
+
+withoutItems.args = {
+  total: 'R$ 0,00'
+}

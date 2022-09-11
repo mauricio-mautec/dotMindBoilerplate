@@ -8,6 +8,15 @@ import cardsMock from 'components/PaymentOptions/mock'
 
 import Cart, { CartProps } from '.'
 import React, { ReactNode } from 'react'
+import { EmptyProps } from 'components/Empty'
+
+const emptyCartProps: EmptyProps = {
+  title: 'A simple title',
+  description: 'A simple description',
+  descriptionColor: 'white',
+  imgSrc: '/img/empty.svg',
+  imgAlt: 'A gamer in a couch playing videogame'
+}
 
 const props: CartProps = {
   labelCart: 'My Cart',
@@ -15,7 +24,8 @@ const props: CartProps = {
   recommendedHighlight: highlightMock,
   items: cartlistMock,
   total: '430,00',
-  cards: cardsMock
+  cards: cardsMock,
+  emptyCart: emptyCartProps
 }
 
 jest.mock('templates/Base', () => ({

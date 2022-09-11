@@ -1,214 +1,140 @@
-- [Boilerplate do grupo de desenvolvimento dotMind](#boilerplate-do-grupo-de-desenvolvimento-dotmind)
-    - [dotMind é um grupo formado para o desenvolvimento de sistemas. Este repositório tem por finalidade facilitar a criação de um ambiente de desenvolvimento baseado nas tecnologias NextJS, TypeScript, Strapi, Postgres dentre outras.](#dotmind-é-um-grupo-formado-para-o-desenvolvimento-de-sistemas-este-repositório-tem-por-finalidade-facilitar-a-criação-de-um-ambiente-de-desenvolvimento-baseado-nas-tecnologias-nextjs-typescript-strapi-postgres-dentre-outras)
-    - [Este boilerplate foi testado em máquinas com chips Apple M1](#este-boilerplate-foi-testado-em-máquinas-com-chips-apple-m1)
-    - [{ INSERIR REFERENCIA AO BOILERPLATE DO WILLIAN JUSTEN}](#-inserir-referencia-ao-boilerplate-do-willian-justen)
-  - [Parte I - Docker Strapi Postgres](#parte-i---docker-strapi-postgres)
-    - [NOTAS IMPORTANTES](#notas-importantes)
-  - [Parte II - Configuração Nodejs VsCode NextJS Brew Git](#parte-ii---configuração-nodejs-vscode-nextjs-brew-git)
-  - [Node NextJS](#node-nextjs)
-  - [ESLINT](#eslint)
-  - [Prettier](#prettier)
-  - [Git Hooks: Husky e Lint-Staged](#git-hooks-husky-e-lint-staged)
-  - [Jest com Babel e TypeScript](#jest-com-babel-e-typescript)
-  - [React Testing Library](#react-testing-library)
-  - [Styled Components e Server Side Rendering](#styled-components-e-server-side-rendering)
-  - [Criando Estilos em Componentes](#criando-estilos-em-componentes)
-  - [Storybook](#storybook)
-  - [PWA - Progressive Web App](#pwa---progressive-web-app)
-  - [GitHub CLI & Pull Requests com DependaBot](#github-cli--pull-requests-com-dependabot)
-
 # Boilerplate do grupo de desenvolvimento dotMind
-### dotMind é um grupo formado para o desenvolvimento de sistemas. Este repositório tem por finalidade facilitar a criação de um ambiente de desenvolvimento baseado nas tecnologias NextJS, TypeScript, Strapi, Postgres dentre outras.
-### Este boilerplate foi testado em máquinas com chips Apple M1 
-### { INSERIR REFERENCIA AO BOILERPLATE DO WILLIAN JUSTEN}
-```
-yarn create next-app -e https://github.com/<repositorio boilerplate> <nome do projeto>
-```
 
-## Parte I - Docker Strapi Postgres
-- CRIAR CONTA PARA USO DO DOCKER
+**dotMind** é um grupo formado para o desenvolvimento de sistemas. Este repositório tem por finalidade facilitar a criação de um ambiente de desenvolvimento baseado nas tecnologias NextJS, TypeScript, Strapi, Postgres dentre outras.
+Este boilerplate foi testado em máquinas com chips Apple M1
 
-  [Criar conta no Docker](https://hub.docker.com)
+{ INSERIR REFERENCIA AO BOILERPLATE DO WILLIAN JUSTEN}
 
-- DOWNLOAD DO DOCKER PARA MAC WITH APPLE CHIP
+---
 
-  [Docker Mac M1](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+## Utilização
 
-- CRIAR DIRETORIOS DO PROJETO E IMAGEM STRAPI-ARM-BASE:
-```
-mkdir ~/MeuProjeto
-cd ~/MeuProjeto
-mkdir StrapiCMS
-cd StrapiCMS
-```
+`yarn create next-app -e https://github.com/<repo boilerplate> <nome projeto>`
 
-vi Dockerfile.strapi-arm-base
-```dockerfile
-FROM node:14
-RUN apt update && apt-get -y install libvips-dev git wget glib2.0-dev expat gobject-introspection libgtk2.0-doc g++ make python
-RUN wget https://github.com/libvips/libvips/releases/download/v8.12.1/vips-8.12.1.tar.gz
-RUN tar xf vips-8.12.1.tar.gz
-RUN cd vips-8.12.1 && ./configure && make && make install && rm -rf vips-8.12.1
-RUN apt-get -y remove libvips-dev libvips42 && ldconfig
-```
-docker build -t strapi-arm-base -f Dockerfile.strapi-arm-base .
+## Docker, Nodejs, Strapi e Postgres
 
-- CRIAR IMAGEM STRAPI-ARM A PARTIR DA IMAGEM BASE:
+### Criar conta para uso do Docker - gratuito
 
-vi Dockerfile.strapi-arm
-```dockerfile
-FROM strapi-arm-base
-RUN mkdir /srv/app && chown 1000:1000 -R /srv/app
-WORKDIR /srv/app
-VOLUME /srv/app
-RUN yarn global add strapi
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod aog+x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["strapi", "develop"]
-```
+[Criar conta no Docker](https://hub.docker.com)
 
-vi docker-entrypoint.sh 
+- Download do Docker para Mac with Apple Silicon
+
+[Docker Mac M1](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+
+- Estrutura do diretório para utilização do container
+- Arquivo docker composer para configuração do container
+- Teste do container do postgres
+
 ```shell
-#!/bin/sh
-set -ea
-if [ "$1" = "strapi" ]; then
-  if [ ! -f "package.json" ]; then
-    DATABASE_CLIENT=${DATABASE_CLIENT:-sqlite}
-    EXTRA_ARGS=${EXTRA_ARGS}
-    echo "Using strapi $(strapi version)"
-    echo "No project found at /srv/app. Creating a new strapi project"
-   DOCKER=true strapi new . \
-      --dbclient=$DATABASE_CLIENT \
-      --dbhost=$DATABASE_HOST \
-      --dbport=$DATABASE_PORT \
-      --dbname=$DATABASE_NAME \
-      --dbusername=$DATABASE_USERNAME \
-      --dbpassword=$DATABASE_PASSWORD \
-      --dbssl=$DATABASE_SSL \
-      $EXTRA_ARGS
-  elif [ ! -d "node_modules" ] || [ ! "$(ls -qAL node_modules 2>/dev/null)" ]; then
-    echo "Node modules not installed. Installing..."
-    yarn install
-  fi
-fi
-echo "Starting your app..."
-exec "$@"
-```
-docker build -t strapi-arm -f Dockerfile.strapi-arm .
-
-- ESTRUTURA DOS DIRETÓRIOS PARA UTILIZAÇÃO DOS CONTAINERS
-- ARQUIVO DOCKER COMPOSE
-```
 cd ~/MeuProjeto
-mkdir app data
+mkdir data
 ```
 
-vi docker-compose.yml
+docker-compose.yml:
+
 ```dockerfile
 version: "3"
 services:
-  strapi:
-    image: strapi-arm
-    environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_NAME: strapi
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USERNAME: strapi
-      DATABASE_PASSWORD: strapi
-    links:
-      - postgres:postgres
-    volumes:
-      - ./app:/srv/app
-    ports:
-      - "1337:1337"
-    depends_on:
-      - postgres
   postgres:
     image: postgres
     environment:
       POSTGRES_USER: strapi
-      POSTGRES_PASSWORD: strapi
+      POSTGRES_PASSWORD: strapi123
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
       - "5432:5432”
 ```
 
-- TESTAR INSTALAÇÃO DO STRAPI + POSTGRES
-- RETIRAR ID DO CONTAINER STRAPI E DESCOBRIR VERSÃO MAJOR E MINOR DO NODEJS PARA UTILIZAR NA PARTE II
-```shell
-docker-compose up -d
-docker ps
-docker exec -ti <id_passo_anterior> node -v
-```
+`docker-compose up -d`
 
-### NOTAS IMPORTANTES
+### Instalação do Nodejs e yarn
 
-- DIRETÓRIO DE DADOS DO POSTGRES É data. CASO QUEIRA APAGAR A BASE DE DADOS, BASTA REMOVER ESSE DIRETÓRIO E REINICIAR OS CONTAINERS
-
-- STRAPI PARA MAC M1 UTILIZA ATUALMENTE A VERSÃO 14.19 DO NODEJS
-
-- DOCKER-ENTRYPOINT VAI PROCURAR PELO PROJETO EM app E, CASO NÃO ENCONTRE, STRAPI CRIARÁ UM NOVO PROJETO NESSE DIRETÓRIO
-
-- STRAPI INICIA EM MODO DEVELOPER (CMD ["strapi", "develop”])
-
-- ACESSE A INTERFACE COM SEU E-MAIL E ADICIONE O PLUGIN DO GRAPHQL EM MarketPlace/Plugins
-
-[Strapi rodando na 1337](http://localhost:1337)
-
-
----
-
-  ## Parte II - Configuração Nodejs VsCode NextJS Brew Git
-
-## Node NextJS
-
-- DOWNLOAD  NVM COMO VERSIONADOR
-- HABILITAR BASE DO XCODE
-- INSTALAR NODE DE ACORDO COM A VERSÃO NODE NO STRAPI, ATUALMENTE 14.19.0
+- Download NVM como versionador
+- Habilitar base do XCode
+- Instalar yarn
 
 [Instruções de instalação NVM](https://nodejs.dev)
 
 ```shell
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 sudo Xcode-select --install
-nvm install 14.19.0
+nvm install 16.14.0
+npm install --global yarn
 ```
 
-- COMANDOS NVM ÚTEIS
+- Comandos NVM úteis:
+
 ```shell
 nvm current
 nvm ls
-nvm use 14.19.0
+nvm use 16.14.0
 nvm uninstall 13.17.6
 ```
 
-- DOWNLOAD DO VSCODE
+### Instalação Strapi com Postgres
 
+- Instalar Utilizando:
+  - installation type Custom
+  - default database client postgres
+  - database name strapi
+  - host 127.0.0.1
+  - port 5432
+  - username strapi
+  - password strapi123
+  - SSL connection No
+
+`yarn create strapi-app api`
+
+### NOTAS IMPORTANTES
+
+- Diretório de dados do Postgres é data. Caso queira apaagar a base de Dados, basta remover esse diretório e reiniciar o container
+- Após a instalação do strapi, entre no diretório api e execute o strapi para configurar o acesso do usuario administrador
+- Utilize para First/LastName strapi / strapi e para senha Strapi123
+
+---
+
+## Configuração Nodejs VsCode NextJS Brew Git
+
+### VSCode
+
+- Dowload VSCode
 [Download VSCode](https://code.visualstudio.com/Download)
+- Instalação das extensions
+  - clone o repositório: <https://github.com/React-Avancado/reactavancado-extension-pack>
+  - instale o vsce
+  - crie o pacote da extensão
+  - instale a extensão a partir do arquivo .visix gerado anteriormente
+    - VSCode / Extensions Menu / More / Install from VISIX / Reload Now
 
-- ADICIONAR VSCODE AO PATH ABRINDO O Command Palette (Cmd+Shift+P)
-  - PROCURE POR 'shell command'
-  - DEVERÁ APARECER A OPÇÃO Install 'code' command in PATH
-- ATUALIZAR VERSÃO DO YARN
-- INSTALAR GERENCIADOR DE PACOTES BREW
-- INSTALAR GIT
-  
 ```shell
-npm install -g yarn
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install git
+wget https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64
+git clone https://github.com/React-Avancado/reactavancado-extension-pack
+cd reactavancado-extension-pack
+npm install -g vsce
+vsce package
 ```
 
-- CRIAR UM PROJETO BOILERPLATE NEXTJS
-- SINALIZAR A UTILIZAÇÃO DE TYPESCRIPT
-- VERIFICAR DEPENDENCIAS PARA UTILZAR TYPESCRIPT
-- INSTALAR DEPENDENCIAS
-- FINALIZAR A INSTALAÇÃO TESTANDO O MODO dev
-- MELHORAR A TIPAGEM DO PROJETO 
-  
+- Adicionar VSCode ao path abrindo o Command Palette (Cmd+Shift+P)
+  - Procure por 'shell command'
+  - Opção Install 'code' command in PATH
+
+### Brew e Git
+
+```shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install git
+cd ~/MeuProjeto
+git init
+```
+
+### Projeto NextJs
+
+- Criar um projeto boilerplate
+- Sinalizar utilização de TypeScript
+- Verificar e instalar dependencias para TypeScript
+- Teste, tipagem e configuração do typescript
+
 ```shell
 cd ~/MeuProjeto
 yarn create next-app frontpage
@@ -219,7 +145,8 @@ yarn add --dev typescript@4.5.5 @types/react @types/node
 yarn dev
 ```
 
-vi tsconfig.json
+tsconfig.json:
+
 ```json
 {
   "compilerOptions": {
@@ -254,8 +181,10 @@ vi tsconfig.json
 }
 ```
 
-- CRIAR O DIRETÓRIO scr E MOVER A PASTA pages PARA DENTRO DELE
-- TROCAR A EXTENSÃO DA index DE .ts PARA .tsx PARA TRABALHAR COM SUPORTE A JSX DENTRO DO JAVASCRIPT
+### Organização diretórios e suporte de jsx em javascript
+
+- Criar diretório src e mover pasta pages para dentro de src
+- renomear extensão da index de .ts para .tsx
 
 ```shell
 cd ~/MeuProjeto/frontpage
@@ -264,10 +193,13 @@ mv pages/index.js pages/index.jsx
 mv pages src
 ```
 
-- CONFIGURAR A CONSISTENCIA DOS ARQUIVOS NO VSCODE VIA EDITOR CONFIG
+### Configurar VSCode
 
-vi .editorconfig
-```
+- Configurar a consistência dos arquivos no VSCode via editor config
+
+.editorconfig:
+
+```txt
 # editorconfig.org
 root = true
 
@@ -284,60 +216,31 @@ insert_final_newline = true
 
 ## ESLINT
 
-- INSTALAR O ESLINT ESCOLHENDO AS OPÇÕES:
-  - CHECAR A SINTAXE E ENCONTRAR PROBLEMAS
-  - JAVASCRIPT MODULES - IMPORT/EXPORT
-  - REACT
-  - TYPESCRIPT
-  - BROWSER
-  - JSON 
-  - YARN -> SERÁ APRESENTADO UMA RELAÇÃO DE PLUGINS PARA SER INSTALADA MANUALMENTE:
+- Instalar o ESLint escolhendo:
+  - checar sintaxe e encontrar problemas
+  - javascript modules - import / export
+  - react
+  - typescript
+  - browser
+  - json
+  - yarn -> será apresentado uma relação de plugins para ser instalada manualmente.
 
 ```shell
 npx eslint --init
 yarn add --dev eslint-plugin-react@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest eslint@latest
 ```
 
-- OBSERVAR O ARQUIVO GERADO .eslint.json CONTENDO A CONFIGURAÇÃO DO ESLINT
+### Plugins e Configurações .eslintrc.json
 
-```json
-cat .eslintrc.json 
-{
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
-    "rules": {
-    }
-}
-```
-
-- INSTALAR ESLINT-PLUGIN-REACT-HOOKS
-- CONFIGURAR PLUGINS
-  - ESLINT-PLUGIN-REACT-HOOKS: PARA MELHORAR O DESENVOLVIMENTO COM RELAÇÃO À UTILIZAÇÃO DE HOOKS E DEPENDÊNCIAS
-  - DESLIGAR PROP-TYPES: POIS JÁ ESTAMOS UTILIZANDO TYPESCRIPT E NÃO É DESEJADO SERMOS LEMBRADOS A TODO MOMENTO QUE NÃO HÁ PROP TYPES
-  - DESLIGAR REACT-IN-JSX-SCOPE: POIS COMO JÁ UTILIZAMOS O NEXT-JS O REACT JÁ É IMPORTADO PELO NEXTJS GLOBALMENTE
-  - DESLIGAR O EXPLICT-MODULE-BOUNDARY-TYPES: PARA UTILIZAR A INFERÊNCIA DE TIPOS EM CERTOS MOMENTOS E EVITAR TER DE TIPAR TODO RETORNO DE FUNÇÃO E TORNAR TUDO MUITO VERBOSO
-  - OBSERVE A UTILIZAÇÃO DA CONFIGURAÇÃO CUSTOMIZADA, QUE SEPARA "plugins" DE "rules"
-- CONFIGURAR A VERSÃO DO REACT NA SEÇÃO "settings" PARA O CORRETO FUNCIONAMENTO DO REACT-PLUGIN
-- INSTALAR ESLINT-PLUGIN-NEXT PARA CORRETO FUNCIONAMENTO DO MODO PRODUÇÃO (NODE_ENV=production; yarn build) 
+- Instalar ESLINT-PLUGIN-REACT-HOOKS
+- Configurar Plugins
+  - ESLINT-PLUGIN-REACT-HOOKS: melhora o desenvolvimento com relação à utilização de hooks e dependências
+  - Desligar PROP-TYPES: para não sermos lembrados a todo momento de que não há PROP TYPES
+  - Desligar REACT-IN-JSX-SCOPE: o Nextjs já importa React globalmente
+  - Desligar EXPLICT-MODULE-BOUNDARY-TYPES: evita a necessidade de tipar todo retorno de função aumentando assim a verbosidade
+  - Observar configuração customizada separada para "plugins" e "rules"
+  - Configurar a versão do react em "settings" para o correto funcionamento do REACT-PLUGIN
+- Instalar ESLINT-PLUGIN-NEXT para funcionamento adequado do modo PRODUÇÃO (NODE_ENV=production; yarn build)
 
 [Migrating Existing Config: eslint-plugin-next](https://nextjs.org/docs/basic-features/eslint#migrating-existing-config)
 
@@ -350,16 +253,17 @@ yarn add eslint-plugin-react-hooks --dev
 yarn add @next/eslint-plugin-next --dev
 ```
 
-vi .eslintrc.json
+.eslintrc.json:
 
 ```json
 {
+    "root": true,
     "env": {
         "browser": true,
         "es2021": true
     },
-  	"settings": {
-      	"react": {
+   "settings": {
+       "react": {
           "version": "detect"
         }
     },
@@ -367,7 +271,7 @@ vi .eslintrc.json
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-      	"plugin:@next/next/recommended"
+       "plugin:@next/next/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -393,10 +297,12 @@ vi .eslintrc.json
 }
 ```
 
-- HABILITAR O PLUGIN DO ESLINT DENTRO DO VSCODE EXTENSIONS
-- CONFIGURAR "scripts" EM package.json PARA CHAMAR O ESLINT
+### Configurar package.json, VSCode extensions e teste
 
-vi ~/MeuProjeto/frontpage/package.json
+- Habilitar o plugin do eslint dentro do VSCode Extensions
+- Configurar "scripts" de package.json para chamar o ESLINT
+
+~/MeuProjeto/frontpage/package.json:
 
 ```json
 {
@@ -407,7 +313,7 @@ vi ~/MeuProjeto/frontpage/package.json
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0"
+    "lint": "eslint 'src/**/*.{js,jsx}'"
   },
   "dependencies": {
     "next": "12.1.0",
@@ -428,19 +334,19 @@ vi ~/MeuProjeto/frontpage/package.json
 }
 ```
 
-- TESTAR COMANDO DO ESLINT NO TERMINAL
+- Testar comando eslint no terminal
 
-yarn lint
+`yarn lint`
 
 ---
 
 ## Prettier
 
-- INSTALAR E CONFIGURAR
+- Instalar e configurar
 
-yarn add --dev --exact prettier
+`yarn add --dev --exact prettier`
 
-vi ~/MeuProjeto/frontpage/.prettierrc
+~/MeuProjeto/frontpage/.prettierrc:
 
 ```json
 {
@@ -450,13 +356,13 @@ vi ~/MeuProjeto/frontpage/.prettierrc
 }
 ```
 
-- INSTALAR PLUGINS DE INTEGRAÇÃO DO PRETTIER COM O ESLINT: PRETTIER COMO UMA REGRA DO ESLINT
+- Instalar plugins de integração com eslint: prettier como uma regra do eslint
 
-yarn add --dev eslint-plugin-prettier eslint-config-prettier
+`yarn add --dev eslint-plugin-prettier eslint-config-prettier`
 
-- CONFIGURAR REGRA PARA EXECUÇÃO DO PRETTIER PELO ESLINT EM .eslintrc.json
+- Configurar regra para execução do prettier pelo eslint em .eslintrc.json
 
-vi ~/MeuProjeto/frontpage/.eslintrc.json
+~/MeuProjeto/frontpage/.eslintrc.json:
 
 ```json
 {
@@ -500,46 +406,46 @@ vi ~/MeuProjeto/frontpage/.eslintrc.json
 }
 ```
 
-- CONFIGURAR VSCODE PARA EXECUTAR ESLINT/PRETTIER ANTES DE SALVAR
+### VSCode e Prettier
 
-```
+- Configurar VSCode para executar eslint/prettier antes de salvar
+
+```shell
 cd ~/MeuProjeto/frontpage
 mkdir .vscode
 cd .vscode
 touch settings.json
 ```
 
-vi settings.json
+settings.json`
 
 ```json
 {
-	"window.zoomLevel": 2,
-	"editor.fontSize": 10,
-	"terminal.integrated.fontSize": 10,
-	"editor.formatOnSave": false,
-	"editor.codeActionsOnSave": { 
-    	"source.fixAll.eslint": true
+ "window.zoomLevel": 2,
+ "editor.fontSize": 10,
+ "terminal.integrated.fontSize": 10,
+ "editor.formatOnSave": false,
+ "editor.codeActionsOnSave": {
+     "source.fixAll.eslint": true
   }
 }
 ```
 
-
-- ATIVAR ALTERAÇÕES COM RELOAD DO PLUGIN ESLINT NO VSCODE
+- Reload do plugin ESLINT para ativar alterações no VSCode
 
 ---
 
 ## Git Hooks: Husky e Lint-Staged
 
-- INSTALAR E CONFIGURAR HUSKY E LINT-STAGED
+- Instalar e configurar Husky e Lint-staged
 
-
-```
+```shell
 yarn add husky lint-staged --dev
 yarn husky install
 yarn husky add .husky/pre-commit "yarn lint-staged"
 ```
 
-vi package.json
+package.json:
 
 ```json
 {
@@ -553,10 +459,7 @@ vi package.json
     "lint": "eslint  'src/**/*.{js,jsx}' --max-warnings=0"
   },
   "lint-staged": {
-  		"src/**/*": [ 
-        "yarn lint --fix",
-        "yarn test --findRelatedTests --bail"
-      ]
+    "src/**/*": [ "yarn lint --fix" ]
   },
   "dependencies": {
     "next": "12.1.0",
@@ -581,7 +484,8 @@ vi package.json
 }
 ```
 
-- CASO DIRETORIO .git SEJA REMOVIDO EM ALGUM MOMENTO, INSTALAR NOVAMENTE O HUSKY E ADICIONAR NOVAMENTE O HOOK PARA O PRE-COMMIT:
+- Caso o diretório .git seja removido, instalar novamente o husky e adicionar novamento o hook para o pre-commit
+
 ```shell
 git init
 yarn husky install
@@ -592,12 +496,12 @@ yarn husky add .husky/pre-commit "yarn lint-staged"
 
 ## Jest com Babel e TypeScript
 
-- INSTALAR E CONFIGURAR
-  - "node" adicionado ao "env" de eslintrc  pelo fato de que jest utiliza module.exports e a falta desta configuração faria o eslint gerar avisos
+### TypeScript
 
-yarn add jest @babel/preset-typescript @types/jest --dev
+- Configurar
+  - "node": true adicionado ao "env" de .eslintrc.json  pelo fato de que jest utiliza module.exports e a falta desta configuração faria o eslint gerar avisos
 
-vi .eslintrc.json
+.eslintrc.json:
 
 ```json
 {
@@ -637,39 +541,46 @@ vi .eslintrc.json
       "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
 ```
 
-vi ~/MeuProjeto/frontpage/jest.config.js
+- Instalar e configurar Jest
+
+`yarn add jest @babel/preset-typescript @types/jest --dev`
+
+~/MeuProjeto/frontpage/jest.config.js:
 
 ```javascript
 module.exports = {
-	testEnvironment: 'jsdom',
-	testPathIgnorePatterns: ['/node_modules/','/.next/'],
-	collectCoverage: true,
-	collectCoverageFrom: ['src/**/*.ts(x)?', '!src/**/*.stories.tsx'],
-	setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
+ testEnvironment: 'jsdom',
+ testPathIgnorePatterns: ['/node_modules/','/.next/'],
+ collectCoverage: true,
+ collectCoverageFrom: ['src/**/*.ts(x)?', '!src/**/*.stories.tsx'],
+ setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
   moduleNameMapper: {
     '^styled-components': '<rootDir>/node_modules/styled-components/dist/styled-components.browser.cjs.js'
   }
 }
 ```
 
-- CONFIGURAÇÃO BABEL
-	- next/babel para escrever os códigos de teste no Jest utilizando novidades de JavaScript
-	- @babel/preset-typescript pelo fato de estarem escritos em typescript
+### Babel
 
-vi ~/MeuProjeto/frontpage/.babelrc
+- Configurar
+  - next/babel para escrever os códigos de teste no Jest utilizando novidades de JavaScript
+  - @babel/preset-typescript pelo fato de estarem escritos em typescript
+
+~/MeuProjeto/frontpage/.babelrc`
 
 ```json
 {
-	"presets": ["next/babel", "@babel/preset-typescript"]
+ "presets": ["next/babel", "@babel/preset-typescript"]
 }
 ```
 
-vi ~/MeuProjeto/frontpage/package.json
+~/MeuProjeto/frontpage/package.json`
 
 ```json
 {
@@ -715,8 +626,8 @@ vi ~/MeuProjeto/frontpage/package.json
 }
 ```
 
-- CONFIGURAÇÃO JEST
-	- .jest/setup.ts contém as informações do Jest tais como imports de assets, expects e outros artefatos para trabalhar com jsdom
+- Jest Setup
+  - .jest/setup.ts contém as informações do Jest tais como imports de assets, expects e outros artefatos para trabalhar com jsdom
 
 ```shell
 cd ~/MeuProjeto/frontpage
@@ -729,54 +640,54 @@ touch setup.ts
 
 ## React Testing Library
 
-- INSTALAR REACT TESTING LIBRARY E MATCHER DO JEST, O JEST-DOM
-- PREPAR DIRETÓRIOS E CONFIGURAR TESTES INICIAIS QUE DEVERÃO FALHAR
+- Instalar React Testing Library e Matcher do Jest (jest-dom)
+- Criar arquivos para teste e testar
 
 ```shell
 cd ~/MeuProjeto/frontpage
 yarn add --dev @testing-library/react @testing-library/jest-dom
-echo "import '@testing-library/jest-dom' >> .jest/setup.ts
+echo "import '@testing-library/jest-dom' >> .jest/setup.ts"
 cd src
 mkdir components components/Main
 cd components/Main
 touch index.tsx test.tsx
 ```
 
-vi index.tsx
+index.tsx:
 
 ```jsx
 const Main = () => (
-	<main>
-		<h1>React</h1>
-	</main>
+ <main>
+  <h1>React</h1>
+ </main>
 )
 
 export default Main
 ```
 
-- BAIXAR E IMPRIMIR O CHEAT SHEET PARA FUNÇÕES DE TESTE
-
+- Baixar e imprimir o cheat sheet para funções de teste
 [Cheat Sheet](https://github.com/testing-library/react-testing-library/raw/main/other/cheat-sheet.pdf)
 
-vi test.tsx
+test.tsx:
+
 ```jsx
 import { render, screen } from '@testing-library/react'
 
 import Main from '.'
 
 describe ('<Main />', () => {
-	it ('should render the heading', () => {
-			render(<Main />)
-			expect(
-				screen.getByRole('heading', { name: /react avançado/i })
-			).toBeInTheDocument
-	})
+ it ('should render the heading', () => {
+   render(<Main />)
+   expect(
+    screen.getByRole('heading', { name: /react avançado/i })
+   ).toBeInTheDocument()
+ })
 })
 ```
 
-- RODAR O TESTE E VERIFICAR SE OCORRE A FALHA
+- Rodar o teste e verificar ocorrência intencional da falha
 
-```sh
+```shell
 yarn test
 yarn run v1.22.17
 $ jest
@@ -833,10 +744,10 @@ $ jest
       at runCLI (node_modules/@jest/core/build/cli/index.js:173:3)
 
 -----------|---------|----------|---------|---------|-------------------
-File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -----------|---------|----------|---------|---------|-------------------
-All files  |     100 |      100 |     100 |     100 |                   
- index.tsx |     100 |      100 |     100 |     100 |                   
+All files  |     100 |      100 |     100 |     100 |
+ index.tsx |     100 |      100 |     100 |     100 |
 -----------|---------|----------|---------|---------|-------------------
 Test Suites: 1 failed, 1 total
 Tests:       1 failed, 1 total
@@ -847,21 +758,21 @@ error Command failed with exit code 1.
 info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 ```
 
-- ALTERAR index.tsx PARA PASSAR NO TESTE E NOVAMENTE VERIFICAR
+- Alterar index.tsx para passar no teste e novamente verificar
 
-vi ~/MeuProjeto/frontpage/src/components/Main/main.tsx
+~/MeuProjeto/frontpage/src/components/Main/index.tsx:
 
-```
+```jsx
 const Main = () => (
-	<main>
-		<h1>React Avançado</h1>
-	</main>
+ <main>
+  <h1>React Avançado</h1>
+ </main>
 )
 
 export default Main
 ```
 
-```sh
+```shell
 yarn test
 yarn run v1.22.17
 $ jest
@@ -870,10 +781,10 @@ $ jest
     ✓ should render the heading (29 ms)
 
 -----------|---------|----------|---------|---------|-------------------
-File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -----------|---------|----------|---------|---------|-------------------
-All files  |     100 |      100 |     100 |     100 |                   
- index.tsx |     100 |      100 |     100 |     100 |                   
+All files  |     100 |      100 |     100 |     100 |
+ index.tsx |     100 |      100 |     100 |     100 |
 -----------|---------|----------|---------|---------|-------------------
 Test Suites: 1 passed, 1 total
 Tests:       1 passed, 1 total
@@ -883,10 +794,9 @@ Ran all test suites.
 ✨  Done in 1.99s.
 ```
 
-- CONFIGURAR TESTE ASSISTIDO
+- Configurar script para teste assistido, "test:watch"
 
-cd ~/MeuProjeto/frontpage
-vi package.json
+package.json:
 
 ```json
 {
@@ -935,9 +845,9 @@ vi package.json
 }
 ```
 
-- CONFIGURAR SNAPSHOT NO ARQUIVO DE TEST
+- Configurar snapshot no arquivo de teste
 
-vi src/components/Main/test.tsx
+src/components/Main/test.tsx:
 
 ```tsx
 import { render, screen } from '@testing-library/react'
@@ -955,17 +865,22 @@ describe('<Main />', () => {
 })
 ```
 
-- PARA TESTAR O SNAPSHOT, RODAR OS TESTES UMA VEZ E DEPOIS ALTERAR O HEADING DE h1 PARA h2 EM main.tsx, DE FORMA QUE PASSE NO PRIMEIRO TESTE MAS FALHE NO SNAPSHOT
-- NOTAS: 
-  - SE ESTIVER UTILIZANDO "test:watch", DIGITANDO "u" OCORRE A ATUALIZAÇÃO DO SNAPSHOT
-  - NO TESTE MANUAL O SNAPSHOT É ATUALIZADO COM yarn test -u
-  - O SNAPSHOT FAZ PARTE DO REPOSITORIO
-- ADICIONANDO TESTES AO LINT-STAGED
-  -  "yarn test --findRelatedTests --bail":
-    - **bail** serve para que tudo pare ao primeiro teste que não passe
-    - **findRelatedTests** serve para que modificações em arquivos que não sejam relacionadas com os testes não quebrem o processo informando que não há testes para testar
+- Para testar o snapshot, rodar o teste uma vez e depois alter o heading de h1 para h2 em main.tsx, de forma que passe no primeiro test mas falhe no snapshot
+- Notas:
+  - Se estiver utilizando "test:watch", ao digitar "u" teremos a atualização do snapshot
+  - No teste manual o snapshot é atulizado com yarn test -u
+  - O snapshot faz parte do repositório
 
-vi package.json
+### Lint-Staged
+
+O Lint Staged é executado no momento do commit e evita que bugs entrem no versionamento
+
+- Adicionar testes ao LINT-STAGED
+  - "yarn test --findRelatedTests --bail":
+  - **bail** serve para que tudo pare ao primeiro teste que não passe
+  - **findRelatedTests** serve para que modificações em arquivos que não sejam relacionadas com os testes não quebrem o processo informando que não há testes para testar
+
+package.json:
 
 ```json
 {
@@ -1019,45 +934,46 @@ vi package.json
 
 ## Styled Components e Server Side Rendering
 
-- INSTALAR DEPENDENCIAS DE DESENVOLVIMENTO E CONFIGURAR BABEL
-- INSTALAR INTEGRAÇÃO DE STYLED COMPONENTS COM JEST
+- Instalar Styled-Components
+- Instalar dependencias de desenvolvimento e configurar Babel
+- Instalar integração de Styled Components com JEST
 
 [Jest Integration](https://styled-components.com/docs/tooling#jest-integration)
 
+```shell
+yarn add styled-components
 yarn add --dev @types/styled-components babel-plugin-styled-components jest-styled-components
+```
 
-vi .jest/setup.ts
+.jest/setup.ts:
 
 ```typescript
 import '@testing-library/jest-dom'
 import 'jest-styled-components'
 ```
 
-vi .babelrc
+.babelrc:
 
 ```javascript
 {
-	"presets": ["next/babel", "@babel/preset-typescript"],
-	"plugins": [
-	  [		"babel-plugin-styled-components",
-			  {
-		  		"ssr": true
-				}
-	  ]
-	]
+ "presets": ["next/babel", "@babel/preset-typescript"],
+ "plugins": [
+   [  "babel-plugin-styled-components",
+     {
+      "ssr": true
+    }
+   ]
+ ]
 }
 ```
 
-- INSTALAR STYLED-COMPONENTS
-
-`yarn add styled-components`
-
-- CONFIGURAR O ARQUIVO PADRÃO DO NEXTJS PARA PASSAR INFORMAÇÕES AO NEXT SOBRE A RENDERIZAÇÃO DAS PÁGINAS
-- DISPONIBILIZAR A FUNÇÃO RENDER PARA PERMITIR QUE SE EDITE A LINGUAGEM DO HTML E OUTROS DETALHES, EVITANDO REDERIZAÇÕES PADRÕES DO NEXT QUE PODERIAM ENTRAR EM CONFLITO COM O STYLED COMPONENTS
+- Configurar _document.tsx, arquivo padrão do Nextjs, para passar informações ao Nextjs sobre a renderização das páginas
+- Disponibilizar a função Render para permitir que se edite a linguagem HTML e outros detalhes sem que o nextjs faça uma renderização padrão das paginas, o que ocasionaria em conflitos com o Styled Components
 
 [Custom `Document` _document.tsx](https://nextjs.org/docs/advanced-features/custom-document)
 
-vi pages/_document.tsx
+pages/_document.tsx:
+
 ```jsx
 import Document, {
   DocumentContext,
@@ -1077,8 +993,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
         })
 
       const initialProps = await Document.getInitialProps(ctx)
@@ -1110,7 +1025,7 @@ export default class MyDocument extends Document {
 }
 ```
 
-- TESTAR CARREGAMENTO DOS ORIGINAIS GERADOS PELO NEXTJS
+- Testar o carregamento dos originais gerados pelo NextJs acessando <http://localhost:3000>
 
 ```shell
 yarn dev
@@ -1125,17 +1040,19 @@ wait  - compiling / (client and server)...
 event - compiled client and server successfully in 66 ms (168 modules)
 ```
 
-- CRIANDO ESTILOS GLOBAIS COM O HELPER  createGlobalStyle
-  - ESTRUTURAR DIRETÓRIO E ARQUIVO global.ts
-  - ORGANIZAR BORDAS, MARGENS, BOX-SIZING, FONTS PADRÃO, TEMAS E ETC
-  - ORGANIZAR src/pages/index.tsx
-  - CRIAR src/pages/_app.tsx PARA IMPORTAR O GLOBAL STYLE
-  - _app.tsx VAI PERMITIR AS SEGUINTES FUNCIONALIDADES:
-    - PERSISTÊNCIA DE LAYOUT DURANTE MUDANÇA DE PÁGINAS
-    - PERSISTÊNCIA DE ESTADO DURANTE A NAVEGAÇÃO
-    - INJEÇÃO DE DADOS ADICIONAIS
-    - GLOBAL CSS
-    - PATH ALIAS E ABSOLUTE IMPORTS (tsconfig.json)
+### createGlobalStyle
+
+- Criando estilos globais com o helper createGlobalStyle
+  - Estruturar diretório e arquivo global.ts
+  - Organizar bordas, marges, box-sizing, fonts padrão, temas e etc
+  - Organizar src/pages/index.tsx
+  - Criar src/pages/_app.tsx para importar o global style
+  - _app.tsx tem a função de permitir as seguintes funcionalidades:
+    - Persistência de layout durante mudança de páginas
+    - persistência de estado durante a navegação
+    - injeção de dados adicionais
+    - global css
+    - path alias e absolute imports (tsconfig.json)
 
 [Modelo _app.tsx](https://nextjs.org/docs/basic-features/typescript#custom-app)
 
@@ -1145,7 +1062,7 @@ mkdir styles
 touch styles/global.ts
 ```
 
-vi ~/MeuProjeto/frontpage/tsconfig.json
+~/MeuProjeto/frontpage/tsconfig.json:
 
 ```json
 {
@@ -1181,7 +1098,7 @@ vi ~/MeuProjeto/frontpage/tsconfig.json
 }
 ```
 
-vi styles/global.ts
+styles/global.ts:
 
 ```typescript
 import { createGlobalStyle } from 'styled-components'
@@ -1202,14 +1119,14 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-       font-family; -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif 
+       font-family; -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
     }
 `
 
 export default GlobalStyles
 ```
 
-vi pages/_app.tsx
+pages/_app.tsx:
 
 ```typescript
 import type { AppProps } from 'next/app'
@@ -1229,7 +1146,7 @@ function App({ Component, pageProps }: AppProps) {
           content="A simple project starter to work with TypeScript, React, NextJS and Styled Components"
         />
       </Head>
-    	<GlobalStyles />
+     <GlobalStyles />
       <Component {...pageProps} />
     </>
   )
@@ -1238,7 +1155,7 @@ function App({ Component, pageProps }: AppProps) {
 export default App
 ```
 
-vi pages/index.tsx
+pages/index.tsx:
 
 ```typescript
 import Main from 'components/Main'
@@ -1252,13 +1169,13 @@ export default function Home() {
 
 ## Criando Estilos em Componentes
 
-- CRIAR PARA CADA COMPONENTE UM ARQUIVO styles.ts E CONFIGURAR OS ESTILOS
-- NO COMPONENTE, index.tsx,  IMPORTAR TODOS OS ESTILOS COMO 'S' PARA FACILITAR A IDENTIFICAÇÃO ENTRE ESTILOS E COMPONENTES
-- EDITAR TESTES PARA INCLUIR VERIFICAÇÃO DE ESTILOS
+- Criar para cada componente um arquivo styles.ts e configurar os estilos
+- No componente, index.tsx, importar todos os estilos como 'S' para facilitar a identificação entre estilos e componentes
+- Editar testes para incluir a verificação de estilos
 
 `cd ~/MeuProjeto/frontpage/src/components/Main`
 
-vi styles.ts
+styles.ts:
 
 ```typescript
 import styled from 'styled-components'
@@ -1296,7 +1213,7 @@ export const Illustration = styled.img`
 `
 ```
 
-vi index.tsx
+index.tsx:
 
 ```typescript
 import * as S from './styles'
@@ -1321,7 +1238,7 @@ const Main = () => (
 export default Main
 ```
 
-vi test.tsx
+test.tsx:
 
 ```typescript
 import { render, screen } from '@testing-library/react'
@@ -1332,7 +1249,7 @@ describe('<Main />', () => {
   it('should render the heading', () => {
     const { container } = render(<Main />)
     expect(screen.getByRole('heading', { name: /react avançado/i }))
-      .toBeInTheDocument
+      .toBeInTheDocument()
 
     expect(container.firstChild).toMatchSnapshot()
   })
@@ -1353,17 +1270,22 @@ describe('<Main />', () => {
 
 ## Storybook
 
-- INSTALAR E CONFIGURAR STORYBOOK 6.4 PARA GLOBAL STYLES
-- INSTALAR HTTP-SERVER PARA TESTE DE STATICOS DO STORYBOOK
-- INSTALAR PLUGIN DE INTEGRAÇÃO COM O ESLINT
-- INSTALAR PLUGIN Storybook helper (Riccardo Forina) DO VSCODE
-- CONFIGURAR PARA PROCURAR PELOS STORIES JUNTO DA PASTA DE CADA COMPONENTE
-- NOMENCLATURA SUGERIDA:
-	- Iniciar Named story exports com Letra Maiúscula
-- CONFIGURAR DIRETÓRIOS E AJUSTAR PARA QUE A PASTA PUBLIC SEJA UTILIZADA PELOS STORIES 
-- ALTERAR COMPONENT MAIN PARA RECEBER. PARAMETROS
+- Instalar e configurar para utilizar global styles
+- Instalar http-server para teste de staticos
+- Instalar plugin de integração com o ESLint
+- Instalar extension Storybook helper (Riccardo Forina) no VSCode
+- Configurar stories para serem encontrados junto da pasta de cada componente
+- Nomenclatura
+  - Iniciar named story exports com Letra Maiúcula
+- Configurar diretórios e ajustar para que a pasta public seja utilizada pelos stories
+- Alterar component Main para receber parâmetros
 
-DOCUMENTAÇÃO: [Context for mocking](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking), [Write stories](https://storybook.js.org/docs/react/writing-stories/introduction)
+[Context for mocking](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking)
+
+[Write stories](https://storybook.js.org/docs/react/writing-stories/introduction)
+
+### Configuração
+
 ```shell
 cd ~/MeuProjeto/frontpage
 yarn add --dev eslint-plugin-storybook
@@ -1372,7 +1294,9 @@ rm -rf stories
 touch src/components/Main/stories.txs
 brew install http-server
 ```
-vi package.json
+
+package.json:
+
 ```javascript
 {
   "name": "frontpage",
@@ -1432,7 +1356,9 @@ vi package.json
   }
 }
 ```
-vi .storybook/preview.js
+
+.storybook/preview.js:
+
 ```javascript
 import GlobalStyles from '../src/styles/global'
 
@@ -1455,7 +1381,9 @@ export const decorators = [
   ),
 ]
 ```
-vi .storybook/main.js
+
+.storybook/main.js:
+
 ```javascript
 module.exports = {
   "stories": [
@@ -1467,19 +1395,21 @@ module.exports = {
 }
 ```
 
-- CONFIGURANDO STORIES NO COMPONENTE EXEMPLO Main E EXECUÇÃO DO STORIES
+- Configurar Componente Main e Executar Stories
 
-
-
-vi src/components/Main/index.tsx
+src/components/Main/index.tsx:
 
 ```typescript
 import * as S from './styles'
 
+type mainProps = {
+  title: string
+  description: string
+}
 const Main = ({
   title = 'React Avançado',
   description = 'TypeScript, ReactJS, NextJs e Styled Components'
-}) => (
+}: mainProps) => (
   <S.Wrapper>
     <S.Logo
       src="/img/logo.svg"
@@ -1497,9 +1427,7 @@ const Main = ({
 export default Main
 ```
 
-
-
-vi src/components/Main/stories.tsx
+src/components/Main/stories.tsx:
 
 ```typescript
 import { ComponentStory, ComponentMeta } from '@storybook/react'
@@ -1532,7 +1460,9 @@ Complex.args = {
 }
 ```
 
-yarn storybook
+### Execução
+
+`yarn storybook`
 
 ```shell
 webpack built preview d8347124f2dac1508f80 in 4091ms
@@ -1547,15 +1477,21 @@ webpack built preview d8347124f2dac1508f80 in 4091ms
 ╰───────────────────────────────────────────────────╯
 ```
 
+### Execução Estático
+
+```shell
 yarn build-storybook
 cd ~/MeuProjeto/frontpage/storybook-static
-http-server
+```
+
+`http-server`
+
 ```shell
 Starting up http-server, serving ./
 
 http-server version: 14.1.0
 
-http-server settings: 
+http-server settings:
 CORS: disabled
 Cache: 3600 seconds
 Connection Timeout: 120 seconds
@@ -1570,20 +1506,24 @@ Available on:
   http://192.168.1.43:8080
 Hit CTRL-C to stop the server
 ```
+
 ---
+
 ## PWA - Progressive Web App
 
-- FUNCIONAMENTO OFF-LINE
-- INSTALAR E CONFIGURAR PLUGINS - NEXT-PWA
-- CONFIGURAR NEXTJS PARA NÃO UTILIZAR PWA EM PRODUÇÃO
-- CONFIGURAR MANIFEST E ADICIONAR HEAD META
+- Funcionamento off-line
+- Instalar e Configurar puglins next-pwa
+- Configurar PWA ativo apenas em Produção
+- Configurar Manifest e Head Meta
 
- [Site Next-PWA](https://www.npmjs.com/package/next-pwa)
+[Site Next-PWA](https://www.npmjs.com/package/next-pwa)
 
+```shell
 cd  ~/MeuProjeto/frontpage
 yarn add next-pwa
+```
 
-vi next.config.js
+next.config.js:
 
 ```javascript
 const withPWA = require('next-pwa')
@@ -1599,7 +1539,9 @@ const nextConfig = {
 }
 module.exports = withPWA(nextConfig)
 ```
-vi public/manifest.json
+
+public/manifest.json:
+
 ```json
 {
   "name": "React Avançado - Boilerplate",
@@ -1624,7 +1566,7 @@ vi public/manifest.json
 }
 ```
 
-vi src/pages/_app.tsx
+src/pages/_app.tsx:
 
 ```typescript
 import type { AppProps } from 'next/app'
@@ -1654,34 +1596,41 @@ function App({ Component, pageProps }: AppProps) {
 export default App
 ```
 
-- TESTAR PWA COLOCANDO EM PRODUÇÃO
+### Teste PWA
+
+- Testar PWA colocando no ambiente de Produção
+
 ```shell
 NODE_ENV=production
 yarn build
 yarn start
 ```
 
-## 	GitHub CLI & Pull Requests com DependaBot
+---
 
-- CRIAR REPOSITÓRIO dotMindBoilerplate NO GITHUB
-- CACHING GITHUB CREDENTIALS
-  - Install  Github CLI gh
-  - Escolher  GitHub.com, HTTPS , Authenticate to your GitHub crendentials e Login with a web browser
+## GitHub CLI & Pull Requests com DependaBot
+
+- Criar repositório no github
+- Fazer caching de github credentials
+  - Instalar Github CLI gh
+    - github.com
+    - https
+    - Autenticate to your GitHub credentias
+    - Login with web browser
 
 ```shell
+cd  ~/MeuProjeto/frontpage
 brew install gh
 gh auth login
-git remote add origin https://github.com/<seu usuario git>/dotMindBoilerplate.git
+git remote add origin https://github.com/<seu usuario git>/<boilerplate name>.git
 git branch -M main
 git push -u origin main
-
 ```
-- HABILITAR DEPENDABOT NO GITHUB
-	- ABRA O REPOSITÓRIO NO GITHUB E PROCURE SETTINGS/CONFIGURAÇÕES
-	- SEÇÃO SECURITY/CODE SECURITY AND ANALYSIS
-	- HABILITAR DEPENDABOT ALERTS E DEPENDABOT SECURITY UPDATES
 
-- CONFIGURAR DIRETÓRIO GITHUB E ARQUIVOS
+- Habilitar dependabot no github
+  - abrir repositório no github e procurar por settings/security/code security and analysis
+  - habilitar dependabot alerts e dependabot security updates
+- Configurar diretório github e arquivos
 
 ```shell
 cd ~/MeuProjeto/frontpage
@@ -1690,7 +1639,8 @@ touch .github/dependabot.yml
 cd .github
 ```
 
-vi dependabot.yml
+dependabot.yml:
+
 ```yaml
 version: 2
 updates:
@@ -1701,7 +1651,7 @@ updates:
   open-pull-requests-limit: 10
 ```
 
-- ATUALIZAR REPOSITÓRIO
+- Atualizar repositório
 
 ```shell
 cd ~/MeuProjeto/frontpage
@@ -1709,108 +1659,16 @@ git status
 git add .
 git status
 git commit -m "INTEGRAÇÃO DEPENDABOT"
-```
-
-- ENTRAR NO GITHUB E NO SEU REPOSITORIO PARA VER OS DEPENDABOT ALERTS
-  - NA MINHA CONTA, APRESENTOU UM PROBLEMA ENTRE STORYBOOK E O PACOTE TRIM
-    - PACOTE TRIM 0.0.1 POSSUE FALHA DE SEGURANÇA - SOLUCIONADA NA VERSÃO 0.0.3 - QUE É INCOMPATÍVEL COM STORYBOOK QUE UTILIZA TRIM 0.0.1
-- POSSÍVEL SOLUÇÃO ENVOLVE ATUALIZAR TRIM
-  - INFORMAR RESOLUÇÃO PARA UTILIZAR TRIM 1.0.0
-  - ATUALIZAR REPOSITÓRIO LOCAL E REMOTO
-  - VOLTAR AO GITHUB PARA VER OS DEPENDABOT ALERTS
-
-vi package.json
-```json
-{
-  "name": "frontpage",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
-    "test": "jest",
-    "test:watch": "yarn test --watch",
-    "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook -s ./public"
-  },
-  "lint-staged": {
-    "src/**/*": [
-      "yarn lint --fix",
-      "yarn test --findRelatedTests --bail"
-    ]
-  },
-  "dependencies": {
-    "next": "12.1.0",
-    "next-pwa": "^5.4.5",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "styled-components": "^5.3.3"
-  },
-  "resolutions": {
-    "**/trim": "^1.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/preset-typescript": "^7.16.7",
-    "@next/eslint-plugin-next": "^12.1.0",
-    "@storybook/addon-essentials": "^6.4.19",
-    "@storybook/react": "^6.4.19",
-    "@storybook/testing-library": "^0.0.9",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.3",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.21",
-    "@types/react": "^17.0.39",
-    "@types/styled-components": "^5.1.24",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
-    "babel-loader": "^8.2.3",
-    "babel-plugin-styled-components": "^2.0.6",
-    "eslint": "^8.10.0",
-    "eslint-config-next": "12.1.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.2",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-storybook": "^0.5.7",
-    "husky": "^7.0.4",
-    "jest": "^27.5.1",
-    "jest-styled-components": "^7.0.8",
-    "lint-staged": "^12.3.4",
-    "prettier": "2.5.1",
-    "typescript": "4.5.5"
-  }
-}
-```
-```shell
-git status
-git add
-git commit -m "ATUALIZAÇÃO FALHA DE SEGURANÇA PACOTE TRIM"
 git push origin main
 ```
-- REPETIR O PROCESSO ENQUANTO FOR POSSÍVEL
 
-vi package.json
-```json
------------
-  "resolutions": {
-    "**/trim": "^1.0.0",
-    "**/glob-parent": "^5.1.2"
-  },
-----------
-```
-```shell
-git status
-git add
-git commit -m "ATUALIZAÇÃO FALHA DE SEGURANÇA PACOTE TRIM"
-git push origin main
-```
+- Entrar no github do projeto e ver os dependabot alerts
+
+---
 
 ## Workflow / Continous Integration no GitHub
 
-- CONFIGURAR DIRETORIOS E ARQUIVOS PARA INTEGRAÇÃO
+- Configurar diretórios e arquivos para integração
 
 ```shell
 cd ~/MeuProjeto/frontpage/.github
@@ -1818,7 +1676,9 @@ mkdir workflows
 touch workflows/ci.yml
 ```
 
-vi workflows/ci.yml
+### Configuração Integração
+
+workflows/ci.yml:
 
 ```yaml
 name: ci
@@ -1860,11 +1720,9 @@ jobs:
         run: yarn build
 ```
 
+`cd ~/MeuProjeto/frontpage`
 
-
-cd ~/MeuProjeto/frontpage
-
-vi package.json
+package.json:
 
 ```json
 {
@@ -1933,16 +1791,15 @@ vi package.json
 }
 ```
 
-
-
-- VERIFICAR FUNCIONAMENTO EM GITHUB PULL REQUESTS APÓS ENVIAR UM PUSH
+- Verificar funcionamento no github pull requests após enviar um push
 
 ---
+
 ## Integração com Plop
 
+Plop facilita a criação de componentes pela criação dos arquivos necessários: index.tsx, stories.tsx, styles.ts e test.tsx
 
-
-- CASE MODIFIERS
+- Plop case modifiers
   - **camelCase**: changeFormatToThis
   - **snakeCase**: change_format_to_this
   - **dashCase/kebabCase**: change-format-to-this
@@ -1954,21 +1811,20 @@ vi package.json
   - **constantCase**: CHANGE_FORMAT_TO_THIS
   - **titleCase**: Change Format To This
 
-- INSTALAR E CONFIGURAR DIRETÓRIOS E ARQUIVOS
+- Instalar e Configurar
 
 [PlopJS](https://plopjs.com)
 
-yarn add --dev plop
-
 ```shell
 cd ~/MeuProjeto/frontpage
+yarn add --dev plop
 mkdir generators
 mkdir generators/templates
 touch generators/plopfile.js
 touch generators/templates/index.tsx.hbs
 ```
 
-vi generators/plopfile.js
+generators/plopfile.js:
 
 ```javascript
 module.exports = function (plop) {
@@ -2008,7 +1864,7 @@ module.exports = function (plop) {
 }
 ```
 
-vi generators/templates/index.tsx.hbs
+generators/templates/index.tsx.hbs:
 
 ```handlebars
 import * as S from './styles'
@@ -2018,13 +1874,10 @@ const {{pascalCase name}} = ({}) => (
     <h1>{{pascalCase name}}</h1>
   </S.Wrapper>
 )
-
 export default {{pascalCase name}}
 ```
 
-
-
-vi generators/templates/stories.tsx.hbs
+generators/templates/stories.tsx.hbs`
 
 ```handlebars
 import { ComponentStory, ComponentMeta } from '@storybook/react'
@@ -2042,9 +1895,7 @@ export const Basic = Template.bind({})
 
 ```
 
-
-
-vi generators/templates/styles.ts.hbs
+generators/templates/styles.ts.hbs`
 
 ```handlebars
 import styled from 'styled-components'
@@ -2053,9 +1904,7 @@ export const Wrapper = styled.main``
 
 ```
 
-
-
-vi generators/templates/test.tsx.hbs
+generators/templates/test.tsx.hbs`
 
 ```handlebars
 import { render, screen } from '@testing-library/react'
@@ -2064,18 +1913,17 @@ import {{pascalCase name}} from '.'
 
 describe('<{{pascalCase name}} />', () => {
   it('should render the heading', () => {
-    const { container } = render(<{{pascalCase name}} />)
+    // const { container } =
+    render(<{{pascalCase name}} />)
     expect(screen.getByRole('heading', { name: /{{pascalCase name}}/i })).toBeInTheDocument
 
-    expect(container.firstChild).toMatchSnapshot()
+    //expect(container.firstChild).toMatchSnapshot()
   })
 })
 
 ```
 
-
-
-vi package.json
+package.json:
 
 ```json
 {
@@ -2146,13 +1994,6 @@ vi package.json
 }
 ```
 
+- Testar Plop na criação de um novo componente
 
-
-- TESTAR PLOP NA CRIAÇÃO DE UM NOVO COMPONENTE
-
-yarn generate
-
----
-
-
-
+`yarn generate NomeComponente`

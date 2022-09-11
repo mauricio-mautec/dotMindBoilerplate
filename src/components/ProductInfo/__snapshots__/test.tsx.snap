@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[
-  `<ProductInfo /> should render the title, description, value and buttons 1`
-] = `
+exports[`<ProductInfo /> should render the title, description, value and buttons 1`] = `
 .c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -243,7 +241,7 @@ exports[
   <div
     class="c3 c4"
   >
-    $ 450.00
+    R$ 450,00
   </div>
   <div
     class="c5"
@@ -296,4 +294,4 @@ exports[
     </button>
   </div>
 </div>
-`
+`;

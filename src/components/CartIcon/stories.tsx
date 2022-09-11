@@ -12,12 +12,13 @@ export default {
   }
 } as ComponentMeta<typeof CartIcon>
 
-const Template: ComponentStory<typeof CartIcon> = (args) => <CartIcon {...args} />
+const Template: ComponentStory<typeof CartIcon> = (args) => (
+  <CartIcon {...args} />
+)
 
 export const Basic = Template.bind({})
 
-Basic.args = {
-}
+Basic.args = {}
 
 export const WithBadge = Template.bind({})
 

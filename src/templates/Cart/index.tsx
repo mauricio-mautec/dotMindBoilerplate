@@ -23,7 +23,8 @@ const Cart = ({
   recommendedHighlight,
   items,
   total,
-  cards
+  cards,
+  emptyCart
 }: CartProps) => {
   const handlePayment = () => ({})
   return (
@@ -35,7 +36,7 @@ const Cart = ({
 
         {items.length ? (
           <S.Content>
-            <CartList items={items} total={total} />
+            <CartList items={items} total={total} emptyCart={emptyCart} />
 
             <PaymentOptions cards={cards} handlePayment={handlePayment} />
           </S.Content>

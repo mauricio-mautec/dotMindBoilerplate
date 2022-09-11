@@ -11,8 +11,8 @@ describe('<FormProfile />', () => {
       screen.getByRole('heading', { name: /FormProfile/i })
     ).toBeInTheDocument()
 
-    expect(screen.getByRole('textbox', { name: /name/i })).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: /e-mail/i })).toBeInTheDocument()
+    expect(screen.getByText(/name/i)).toBeInTheDocument()
+    expect(screen.getByText(/e-mail/i)).toBeInTheDocument()
 
     expect(
       screen.getByPlaceholderText(/type your password/i)

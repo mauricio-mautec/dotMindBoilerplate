@@ -1,8 +1,6 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { opacify } from 'polished'
 import { renderWithTheme } from 'utils/tests/helpers'
-
 
 import Dropdown from '.'
 
@@ -17,7 +15,7 @@ describe('<Dropdown />', () => {
     )
   })
 
-  it('should render the title',  () => {
+  it('should render the title', () => {
     expect(screen.getByLabelText(/toggle dropdown/i)).toBeInTheDocument()
   })
 

@@ -4,7 +4,12 @@ import ProductCard from '.'
 
 export default {
   title: 'Product/ProductCard',
-  component: ProductCard
+  component: ProductCard,
+  parameters: {
+    backgrounds: {
+      default: 'won-dark'
+    }
+  }
 } as ComponentMeta<typeof ProductCard>
 
 const Template: ComponentStory<typeof ProductCard> = (args) => (
@@ -19,8 +24,8 @@ Basic.args = {
   subtitle: 'dotMind Developement Group',
   img: '/img/product-card.png',
   background: 'gray',
-  price: 'R$ 432,00',
-  promotionalPrice: ''
+  price: 432,
+  promotionalPrice: 0
 }
 
 Basic.argTypes = {
@@ -33,8 +38,8 @@ Promo.args = {
   subtitle: 'dotMind Developement Group',
   img: '/img/product-card.png',
   background: 'gray',
-  price: 'R$ 432,00',
-  promotionalPrice: 'R$ 300,00'
+  price: 432,
+  promotionalPrice: 300
 }
 
 Promo.argTypes = {
@@ -47,8 +52,8 @@ Ribbon.args = {
   subtitle: 'dotMind Developement Group',
   img: '/img/product-card.png',
   background: 'gray',
-  price: 'R$ 432,00',
-  promotionalPrice: 'R$ 345,60',
+  price: 432,
+  promotionalPrice: 345.6,
   ribbonLabel: '20% OFF',
   ribbonSize: 'small',
   ribbonColor: 'secondary'

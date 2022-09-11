@@ -8,8 +8,8 @@ const args = {
   title: 'My Product Card',
   subtitle: 'dotMind Development Group',
   img: '/img/product-card.png',
-  price: 'R$ 100,00',
-  promotionalPrice: ''
+  price: 100,
+  promotionalPrice: 0
 }
 describe('<ProductCard />', () => {
   it('should render correctly', () => {
@@ -37,7 +37,7 @@ describe('<ProductCard />', () => {
   })
 
   it('should render promotional price in label', () => {
-    renderWithTheme(<ProductCard {...args} promotionalPrice="R$ 50,00" />)
+    renderWithTheme(<ProductCard {...args} promotionalPrice={50.0} />)
 
     const fullprice = screen.getByText('R$ 100,00')
     const price = screen.getByText('R$ 50,00')

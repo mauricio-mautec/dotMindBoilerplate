@@ -12,12 +12,12 @@ const FormProfile = ({ labelFormProfile }: FormProfileProps) => (
       {labelFormProfile}
     </Heading>
     <S.Form>
-      <TextField label="Name" placeholder="John Cage" />
+      <TextField label="Name" placeholder="User Name" />
 
       <TextField
         label="E-mail"
         initialValue=""
-        placeholder="johncage@gmail.com"
+        placeholder="user_email@mail.server.com"
         disabled
         type="email"
       />

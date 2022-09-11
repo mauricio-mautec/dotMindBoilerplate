@@ -125,7 +125,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     >
       <label
         class="c2"
-        for="name"
+        for=""
       >
         name
       </label>
@@ -154,7 +154,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
         </div>
         <input
           class="c6"
-          id="name"
+          id=""
           placeholder="Name"
           type="name"
           value=""
@@ -166,7 +166,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     >
       <label
         class="c2"
-        for="email"
+        for=""
       >
         email
       </label>
@@ -195,7 +195,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
         </div>
         <input
           class="c6"
-          id="email"
+          id=""
           placeholder="Email"
           type="email"
           value=""
@@ -207,7 +207,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     >
       <label
         class="c2"
-        for="password"
+        for=""
       >
         password
       </label>
@@ -243,7 +243,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
         </div>
         <input
           class="c6"
-          id="password"
+          id=""
           placeholder="Password"
           type="password"
           value=""
@@ -255,7 +255,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
     >
       <label
         class="c2"
-        for="confirmation"
+        for=""
       >
         confirmation
       </label>
@@ -291,7 +291,7 @@ exports[`<FormSignUp /> Renders with placeholder 1`] = `
         </div>
         <input
           class="c6"
-          id="confirmation"
+          id=""
           placeholder="Confirm Password"
           type="password"
           value=""

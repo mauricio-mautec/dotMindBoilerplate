@@ -5,7 +5,7 @@ import ProductInfo, { ProductInfoProps } from '.'
 const props: ProductInfoProps = {
   title: 'Product Info',
   description: 'The Best Product',
-  price: '$ 450.00'
+  price: 450
 }
 
 describe('<ProductInfo />', () => {
